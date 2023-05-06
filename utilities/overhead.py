@@ -112,7 +112,7 @@ class Overhead:
 
                     # Get plane type
                     try:
-                        plane = details["aircraft_code"]["model"]["text"]
+                        plane = details["aircraft"]["model"]["text"]
                     except (KeyError, TypeError):
                         plane = ""
 
