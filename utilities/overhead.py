@@ -137,6 +137,12 @@ class Overhead:
                         else ""
                     )
 
+                    registration = (
+                        flight.registration
+                        if not (flight.registration.upper() in BLANK_FIELDS)
+                        else ""
+                    )
+
                     data.append(
                         {
                             "plane": plane,
@@ -145,6 +151,7 @@ class Overhead:
                             "vertical_speed": flight.vertical_speed,
                             "altitude": flight.altitude,
                             "callsign": callsign,
+                            "registration": registration,
                         }
                     )
                     break
