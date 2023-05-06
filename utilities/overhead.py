@@ -96,7 +96,7 @@ class Overhead:
             for f in flights
             if self._flight_filter(f)
         ]
-        pprint.pprint(flights)
+
         flights = sorted(flights, key=lambda f: distance_from_flight_to_home(f))
 
         for flight in flights[:MAX_FLIGHT_LOOKUP]:
@@ -115,6 +115,7 @@ class Overhead:
                         plane = details["aircraft"]["model"]["text"]
                     except (KeyError, TypeError):
                         plane = ""
+                    pprint.pprint(plane)
 
                     # Tidy up what we pass along
                     plane = plane if not (plane.upper() in BLANK_FIELDS) else ""
