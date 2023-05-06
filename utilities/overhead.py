@@ -98,6 +98,8 @@ class Overhead:
         ]
 
         flights = sorted(flights, key=lambda f: distance_from_flight_to_home(f))
+        pprint.pprint("This is at FLIGHTS")
+        pprint.pprint(flights)
 
         for flight in flights[:MAX_FLIGHT_LOOKUP]:
             retries = RETRIES
@@ -115,6 +117,7 @@ class Overhead:
                         plane = details["aircraft"]["model"]["text"]
                     except (KeyError, TypeError):
                         plane = ""
+                    pprint.pprint("This is at TRY")
                     pprint.pprint(plane)
 
                     # Tidy up what we pass along
