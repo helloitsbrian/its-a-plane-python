@@ -116,7 +116,7 @@ class Overhead:
 
                     # Get plane type
                     try:
-                        plane = details["aircraft"]["model"]["text"]
+                        plane = details["aircraft_code"]
                     except (KeyError, TypeError):
                         plane = ""
                     pprint.pprint("This is at 122")
