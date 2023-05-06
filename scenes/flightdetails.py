@@ -7,7 +7,7 @@ from rgbmatrix import graphics
 BAR_STARTING_POSITION = (0, 17)
 BAR_PADDING = 2
 
-FLIGHT_NO_POSITION = (1, 19)
+FLIGHT_NO_POSITION = (1, 18)
 FLIGHT_NO_TEXT_HEIGHT = 6  # based on font size
 FLIGHT_NO_FONT = fonts.extrasmall
 
@@ -48,7 +48,7 @@ class FlightDetailsScene(object):
             self._data[self._data_index]["callsign"]
             and self._data[self._data_index]["callsign"] != "N/A"
         ):
-            flight_no = f'{self._data[self._data_index]["callsign"]}'
+            flight_no = f'{self._data[self._data_index]["callsign"]}' + " / " f{self._data[self._data_index]["aircraft"]["registration"]}
 
             for ch in flight_no:
                 ch_length = graphics.DrawText(
