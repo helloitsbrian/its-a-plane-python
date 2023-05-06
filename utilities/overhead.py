@@ -89,6 +89,8 @@ class Overhead:
         # Grab flight details
         bounds = self._api.get_bounds(ZONE_DEFAULT)
         flights = self._api.get_flights(bounds=bounds)
+        pprint.pprint("This is at 92")
+        pprint.pprint(flights)
 
         # Sort flights by closest first
         flights = [
@@ -98,7 +100,7 @@ class Overhead:
         ]
 
         flights = sorted(flights, key=lambda f: distance_from_flight_to_home(f))
-        pprint.pprint("This is at FLIGHTS")
+        pprint.pprint("This is at 103")
         pprint.pprint(flights)
 
         for flight in flights[:MAX_FLIGHT_LOOKUP]:
@@ -117,7 +119,7 @@ class Overhead:
                         plane = details["aircraft"]["model"]["text"]
                     except (KeyError, TypeError):
                         plane = ""
-                    pprint.pprint("This is at TRY")
+                    pprint.pprint("This is at 122")
                     pprint.pprint(plane)
 
                     # Tidy up what we pass along
