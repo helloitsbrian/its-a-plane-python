@@ -145,9 +145,18 @@ class FlightDetailsScene(object):
             self.canvas,
             PROGRESS_BAR_INDEX[0],
             PROGRESS_BAR_INDEX[1],
-            PROGRESS_BAR_INDEX[0] + 20,
+            PROGRESS_BAR_INDEX[0] + 19,
             PROGRESS_BAR_INDEX[1],
             colours.WHITE,
+            )
+        
+        graphics.DrawLine(
+            self.canvas,
+            PROGRESS_BAR_INDEX[0],
+            PROGRESS_BAR_INDEX[1],
+            PROGRESS_BAR_INDEX[0] + min([18, int(19 * ratio_completed)]),
+            PROGRESS_BAR_INDEX[1],
+            colours.GREEN,
             )
 
     def _calculate_flight_duration_data(self):
