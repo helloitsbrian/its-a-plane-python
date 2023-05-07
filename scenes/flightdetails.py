@@ -69,7 +69,7 @@ class FlightDetailsScene(object):
         if len(self._data) > 1:
             # Clear are where N of M might have been
             self.draw_square(
-                DATA_INDEX_POSITION[0] - BAR_PADDING,
+                DATA_INDEX_POSITION[0] - BAR_VPADDING,
                 FLIGHT_DETAILS_BAR_STARTING_POSITION[1] - (FLIGHT_NO_TEXT_HEIGHT // 2),
                 screen.WIDTH,
                 FLIGHT_DETAILS_BAR_STARTING_POSITION[1] + (FLIGHT_NO_TEXT_HEIGHT // 2),
@@ -79,9 +79,9 @@ class FlightDetailsScene(object):
             # Dividing bar
             graphics.DrawLine(
                 self.canvas,
-                flight_no_text_length + BAR_PADDING,
+                flight_no_text_length + BAR_VPADDING,
                 FLIGHT_DETAILS_BAR_STARTING_POSITION[1],
-                DATA_INDEX_POSITION[0] - BAR_PADDING - 1,
+                DATA_INDEX_POSITION[0] - BAR_VPADDING - 1,
                 FLIGHT_DETAILS_BAR_STARTING_POSITION[1],
                 DIVIDING_BAR_COLOUR,
             )
