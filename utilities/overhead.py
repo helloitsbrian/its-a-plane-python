@@ -112,19 +112,12 @@ class Overhead:
 
                     # Get plane type
                     try:
-                        plane = details["aircraft"]["model"]["code"]
+                        plane = details["aircraft"]["model"]["code"] + "/" + details["aircraft"]["registration"]
                     except (KeyError, TypeError):
                         plane = ""
 
-                    # Get registration number
-                    try:
-                        reg = details["aircraft"]["registration"]
-                    except (KeyError, TypeError):
-                        reg = ""
-
                     # Tidy up what we pass along
                     plane = plane if not (plane.upper() in BLANK_FIELDS) else ""
-                    reg = reg if not (reg.upper() in BLANK_FIELDS) else ""
 
                     origin = (
                         flight.origin_airport_iata
@@ -144,12 +137,6 @@ class Overhead:
                         else ""
                     )
 
-                    registration = (
-                        flight.registration
-                        if not (flight.registration.upper() in BLANK_FIELDS)
-                        else ""
-                    )
-
                     data.append(
                         {
                             "plane": plane,
@@ -158,7 +145,6 @@ class Overhead:
                             "vertical_speed": flight.vertical_speed,
                             "altitude": flight.altitude,
                             "callsign": callsign,
-                            "registration": registration,
                         }
                     )
                     break
