@@ -6,8 +6,8 @@ from setup import colours, fonts, screen
 # Setup
 PLANE_DETAILS_COLOUR = colours.WHITE
 PLANE_DISTANCE_FROM_TOP = 30
-PLANE_TEXT_HEIGHT = 9
-PLANE_FONT = fonts.regular
+PLANE_TEXT_HEIGHT = 6
+PLANE_FONT = fonts.extrasmall
 
 
 class PlaneDetailsScene(object):
