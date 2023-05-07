@@ -30,6 +30,7 @@ BOTTOM_OF_PROGRESS_SECTION = FLIGHT_DETAILS_BAR_STARTING_POSITION[1] + (FLIGHT_N
 DEPARTURE_TIME_INDEX = (1, BOTTOM_OF_PROGRESS_SECTION)
 ARRIVAL_TIME_INDEX = (screen.WIDTH - 20, BOTTOM_OF_PROGRESS_SECTION)
 PROGRESS_BAR_INDEX = (22,(TOP_OF_PROGRESS_SECTION + BOTTOM_OF_PROGRESS_SECTION) // 2)
+FLIGHT_TIME_UNKNOWN = " ? "
 
 LOCAL_TZ = pytz.timezone("America/Denver")
 
@@ -164,9 +165,13 @@ class FlightDetailsScene(object):
         start_time = time_details["real"].get("departure")
         if not start_time:
             start_time = time_details["estimated"].get("departure")
+            if not start_time:
+                start_time = FLIGHT_TIME_UNKNOWN
         end_time = time_details["estimated"].get("arrival")
         if not end_time:
             end_time = start_time + time_details["scheduled"]["arrival"] - time_details["scheduled"]["departure"]
+            if not end_time:
+                end_time = FLIGHT_TIME_UNKNOWN
         now = int(datetime.datetime.now(tz=pytz.timezone("UTC")).timestamp())
         ratio_of_flight_completed = (now - start_time) / (end_time - start_time)
         return self._timestamp_to_local_datetime(start_time), ratio_of_flight_completed, self._timestamp_to_local_datetime(end_time)
