@@ -12,7 +12,7 @@ PLANE_FONT = fonts.small
 class PlaneDetailsScene(object):
     def __init__(self):
         super().__init__()
-        self.plane_position = screen.WIDTH
+        self.reset_scrolling()
         self._data_all_looped = False
 
     @Animator.KeyFrame.add(1)
@@ -44,14 +44,14 @@ class PlaneDetailsScene(object):
         )
 
         # Handle scrolling
-        self.plane_position -= 1
-        if self.plane_position + text_length < 0:
-            self.plane_position = screen.WIDTH
-            if len(self._data) > 1:
-                self._data_index = (self._data_index + 1) % len(self._data)
-                self._data_all_looped = (not self._data_index) or self._data_all_looped
-                self.reset_scene()
+        # self.plane_position = -1
+        # if self.plane_position + text_length < 0:
+        #     self.plane_position = screen.WIDTH
+        #     if len(self._data) > 1:
+        #         self._data_index = (self._data_index + 1) % len(self._data)
+        #         self._data_all_looped = (not self._data_index) or self._data_all_looped
+        #         self.reset_scene()
 
     @Animator.KeyFrame.add(0)
     def reset_scrolling(self):
-        self.plane_position = screen.WIDTH
+        self.plane_position = 0
