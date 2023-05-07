@@ -19,8 +19,8 @@ except (ModuleNotFoundError, NameError, ImportError):
     JOURNEY_BLANK_FILLER = " ? "
 
 # Setup
-JOURNEY_POSITION = (0, -1)
-JOURNEY_HEIGHT = 12
+JOURNEY_POSITION = (0, 0)
+JOURNEY_HEIGHT = 11
 JOURNEY_WIDTH = 64
 JOURNEY_SPACING = 16
 JOURNEY_FONT = fonts.large_bold
