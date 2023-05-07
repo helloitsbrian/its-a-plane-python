@@ -4,8 +4,10 @@ from setup import colours, fonts, screen
 from rgbmatrix import graphics
 
 # Setup
-BAR_STARTING_POSITION = (0, 15)
-BAR_PADDING = 2
+FLIGHT_DETAILS_BAR_STARTING_POSITION = (0, 15)
+FLIGHT_PROGRESS_BAR_HEIGHT = 5
+BAR_HPADDING = 2
+BAR_VPADDING = 1
 
 FLIGHT_NO_POSITION = (1, 18)
 FLIGHT_NO_TEXT_HEIGHT = 6  # based on font size
@@ -36,9 +38,9 @@ class FlightDetailsScene(object):
         # Clear the whole area
         self.draw_square(
             0,
-            BAR_STARTING_POSITION[1] - (FLIGHT_NO_TEXT_HEIGHT // 2),
+            FLIGHT_DETAILS_BAR_STARTING_POSITION[1] - (FLIGHT_NO_TEXT_HEIGHT // 2),
             screen.WIDTH - 1,
-            BAR_STARTING_POSITION[1] + (FLIGHT_NO_TEXT_HEIGHT // 2),
+            FLIGHT_DETAILS_BAR_STARTING_POSITION[1] + (FLIGHT_NO_TEXT_HEIGHT // 2) + BAR_VPADDING + FLIGHT_PROGRESS_BAR_HEIGHT,
             colours.BLACK,
         )
 
@@ -68,9 +70,9 @@ class FlightDetailsScene(object):
             # Clear are where N of M might have been
             self.draw_square(
                 DATA_INDEX_POSITION[0] - BAR_PADDING,
-                BAR_STARTING_POSITION[1] - (FLIGHT_NO_TEXT_HEIGHT // 2),
+                FLIGHT_DETAILS_BAR_STARTING_POSITION[1] - (FLIGHT_NO_TEXT_HEIGHT // 2),
                 screen.WIDTH,
-                BAR_STARTING_POSITION[1] + (FLIGHT_NO_TEXT_HEIGHT // 2),
+                FLIGHT_DETAILS_BAR_STARTING_POSITION[1] + (FLIGHT_NO_TEXT_HEIGHT // 2),
                 colours.BLACK,
             )
 
@@ -78,9 +80,18 @@ class FlightDetailsScene(object):
             graphics.DrawLine(
                 self.canvas,
                 flight_no_text_length + BAR_PADDING,
-                BAR_STARTING_POSITION[1],
+                FLIGHT_DETAILS_BAR_STARTING_POSITION[1],
                 DATA_INDEX_POSITION[0] - BAR_PADDING - 1,
-                BAR_STARTING_POSITION[1],
+                FLIGHT_DETAILS_BAR_STARTING_POSITION[1],
+                DIVIDING_BAR_COLOUR,
+            )
+
+            graphics.DrawLine(
+                self.canvas,
+                0,
+                FLIGHT_DETAILS_BAR_STARTING_POSITION[1] + (FLIGHT_NO_TEXT_HEIGHT // 2) + BAR_VPADDING,
+                screen.WIDTH - 1,
+                FLIGHT_DETAILS_BAR_STARTING_POSITION[1] + (FLIGHT_NO_TEXT_HEIGHT // 2) + BAR_VPADDING + FLIGHT_PROGRESS_BAR_HEIGHT,
                 DIVIDING_BAR_COLOUR,
             )
 
@@ -98,8 +109,8 @@ class FlightDetailsScene(object):
             graphics.DrawLine(
                 self.canvas,
                 flight_no_text_length + BAR_PADDING if flight_no_text_length else 0,
-                BAR_STARTING_POSITION[1],
+                FLIGHT_DETAILS_BAR_STARTING_POSITION[1],
                 screen.WIDTH,
-                BAR_STARTING_POSITION[1],
+                FLIGHT_DETAILS_BAR_STARTING_POSITION[1],
                 DIVIDING_BAR_COLOUR,
             )
