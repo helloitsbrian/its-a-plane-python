@@ -4,19 +4,19 @@ from setup import colours, fonts, screen
 from rgbmatrix import graphics
 
 # Setup
-BAR_STARTING_POSITION = (0, 16)
+BAR_STARTING_POSITION = (0, 15)
 BAR_PADDING = 2
 
-FLIGHT_NO_POSITION = (1, 19)
+FLIGHT_NO_POSITION = (1, 18)
 FLIGHT_NO_TEXT_HEIGHT = 6  # based on font size
-FLIGHT_NO_FONT = fonts.extrasmall
+FLIGHT_NO_FONT = fonts.small
 
 FLIGHT_NUMBER_ALPHA_COLOUR = colours.BLUE
 FLIGHT_NUMBER_NUMERIC_COLOUR = colours.BLUE_LIGHT
 
-DATA_INDEX_POSITION = (52, 19)
+DATA_INDEX_POSITION = (52, 18)
 DATA_INDEX_TEXT_HEIGHT = 6
-DATA_INDEX_FONT = fonts.extrasmall
+DATA_INDEX_FONT = fonts.small
 
 DIVIDING_BAR_COLOUR = colours.GREEN
 DATA_INDEX_COLOUR = colours.GREY
