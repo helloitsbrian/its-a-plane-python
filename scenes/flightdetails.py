@@ -123,41 +123,42 @@ class FlightDetailsScene(object):
         
     def _draw_progress_data(self):
         start_dt, ratio_completed, end_dt = self._calculate_flight_duration_data()
-            
-        graphics.DrawText(
-            self.canvas,
-            fonts.extrasmall,
-            DEPARTURE_TIME_INDEX[0],
-            DEPARTURE_TIME_INDEX[1],
-            DATA_INDEX_COLOUR,
-            start_dt.strftime("%H:%M")
-        )
 
-        graphics.DrawText(
-            self.canvas,
-            fonts.extrasmall,
-            ARRIVAL_TIME_INDEX[0],
-            ARRIVAL_TIME_INDEX[1],
-            DATA_INDEX_COLOUR,
-            end_dt.strftime("%H:%M")
-        )
-
-        graphics.DrawLine(
-            self.canvas,
-            PROGRESS_BAR_INDEX[0],
-            PROGRESS_BAR_INDEX[1],
-            PROGRESS_BAR_INDEX[0] + 19,
-            PROGRESS_BAR_INDEX[1],
-            colours.WHITE,
+        if start_dt and end_dt:      
+            graphics.DrawText(
+                self.canvas,
+                fonts.extrasmall,
+                DEPARTURE_TIME_INDEX[0],
+                DEPARTURE_TIME_INDEX[1],
+                DATA_INDEX_COLOUR,
+                start_dt.strftime("%H:%M")
             )
-        
-        graphics.DrawLine(
-            self.canvas,
-            PROGRESS_BAR_INDEX[0],
-            PROGRESS_BAR_INDEX[1],
-            PROGRESS_BAR_INDEX[0] + min([18, int(19 * ratio_completed)]),
-            PROGRESS_BAR_INDEX[1],
-            colours.GREEN,
+
+            graphics.DrawText(
+                self.canvas,
+                fonts.extrasmall,
+                ARRIVAL_TIME_INDEX[0],
+                ARRIVAL_TIME_INDEX[1],
+                DATA_INDEX_COLOUR,
+                end_dt.strftime("%H:%M")
+            )
+
+            graphics.DrawLine(
+                self.canvas,
+                PROGRESS_BAR_INDEX[0],
+                PROGRESS_BAR_INDEX[1],
+                PROGRESS_BAR_INDEX[0] + 19,
+                PROGRESS_BAR_INDEX[1],
+                colours.WHITE,
+            )
+            
+            graphics.DrawLine(
+                self.canvas,
+                PROGRESS_BAR_INDEX[0],
+                PROGRESS_BAR_INDEX[1],
+                PROGRESS_BAR_INDEX[0] + min([18, int(19 * ratio_completed)]),
+                PROGRESS_BAR_INDEX[1],
+                colours.GREEN,
             )
 
     def _calculate_flight_duration_data(self):
@@ -165,13 +166,9 @@ class FlightDetailsScene(object):
         start_time = time_details["real"].get("departure")
         if not start_time:
             start_time = time_details["estimated"].get("departure")
-            if not start_time:
-                start_time = FLIGHT_TIME_UNKNOWN
         end_time = time_details["estimated"].get("arrival")
         if not end_time:
             end_time = start_time + time_details["scheduled"]["arrival"] - time_details["scheduled"]["departure"]
-            if not end_time:
-                end_time = FLIGHT_TIME_UNKNOWN
         now = int(datetime.datetime.now(tz=pytz.timezone("UTC")).timestamp())
         ratio_of_flight_completed = (now - start_time) / (end_time - start_time)
         return self._timestamp_to_local_datetime(start_time), ratio_of_flight_completed, self._timestamp_to_local_datetime(end_time)
