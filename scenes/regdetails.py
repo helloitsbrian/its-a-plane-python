@@ -4,12 +4,12 @@ from utilities.animator import Animator
 from setup import colours, fonts, screen
 
 # Setup
-PLANE_DETAILS_COLOUR = colours.WHITE
-PLANE_DISTANCE_FROM_TOP = 24
-PLANE_TEXT_HEIGHT = 6
-PLANE_FONT = fonts.extrasmall
+REG_DETAILS_COLOUR = colours.WHITE
+REG_DISTANCE_FROM_TOP = 30
+REG_TEXT_HEIGHT = 6
+REG_FONT = fonts.extrasmall
 
-class PlaneDetailsScene(object):
+class RegDetailsScene(object):
     def __init__(self):
         super().__init__()
         self.plane_position = screen.WIDTH
@@ -22,12 +22,12 @@ class PlaneDetailsScene(object):
         if len(self._data) == 0:
             return
 
-        plane = f'{self._data[self._data_index]["plane"]}'
+        reg = f'{self._data[self._data_index]["reg"]}'
 
         # Draw background
         self.draw_square(
             0,
-            PLANE_DISTANCE_FROM_TOP - PLANE_TEXT_HEIGHT,
+            REG_DISTANCE_FROM_TOP - REG_TEXT_HEIGHT,
             screen.WIDTH,
             screen.HEIGHT,
             colours.BLACK,
@@ -36,11 +36,11 @@ class PlaneDetailsScene(object):
         # Draw text
         text_length = graphics.DrawText(
             self.canvas,
-            PLANE_FONT,
+            REG_FONT,
             self.plane_position,
-            PLANE_DISTANCE_FROM_TOP,
-            PLANE_DETAILS_COLOUR,
-            plane,
+            REG_DISTANCE_FROM_TOP,
+            REG_DETAILS_COLOUR,
+            reg,
         )
 
         # Handle scrolling

@@ -9,6 +9,7 @@ from scenes.journey import JourneyScene
 from scenes.loadingpulse import LoadingPulseScene
 from scenes.clock import ClockScene
 from scenes.planedetails import PlaneDetailsScene
+from scenes.regdetails import RegDetailsScene
 from scenes.date import DateScene
 
 from rgbmatrix import graphics
@@ -39,6 +40,7 @@ class Display(
     JourneyScene,
     LoadingPulseScene,
     PlaneDetailsScene,
+    RegDetailsScene,
     ClockScene,
     DateScene,
     Animator,
