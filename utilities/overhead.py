@@ -96,7 +96,7 @@ class Overhead:
             for f in flights
             if self._flight_filter(f)
         ]
-        pprint.pprint(flights)
+
         flights = sorted(flights, key=lambda f: distance_from_flight_to_home(f))
 
         for flight in flights[:MAX_FLIGHT_LOOKUP]:
@@ -112,7 +112,7 @@ class Overhead:
 
                     # Get plane type
                     try:
-                        plane = details["aircraft"]["model"]["text"]
+                        plane = details["aircraft"]["model"]["code"] + "·" + details["aircraft"]["registration"]
                     except (KeyError, TypeError):
                         plane = ""
 
@@ -145,6 +145,7 @@ class Overhead:
                             "vertical_speed": flight.vertical_speed,
                             "altitude": flight.altitude,
                             "callsign": callsign,
+                            "time": details["time"],
                         }
                     )
                     break

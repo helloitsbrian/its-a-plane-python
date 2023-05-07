@@ -20,7 +20,7 @@ except (ModuleNotFoundError, NameError, ImportError):
 
 # Setup
 JOURNEY_POSITION = (0, 0)
-JOURNEY_HEIGHT = 12
+JOURNEY_HEIGHT = 11
 JOURNEY_WIDTH = 64
 JOURNEY_SPACING = 16
 JOURNEY_FONT = fonts.large_bold
@@ -30,7 +30,7 @@ SELECTED_COLOUR = colours.YELLOW_DARK
 ARROW_COLOUR = colours.GREEN
 
 # Element Positions
-ARROW_POINT_POSITION = (34, 7)
+ARROW_POINT_POSITION = (34, 6)
 ARROW_WIDTH = 4
 ARROW_HEIGHT = 8
 

@@ -5,15 +5,17 @@ from setup import colours, fonts, screen
 
 # Setup
 PLANE_DETAILS_COLOUR = colours.WHITE
-PLANE_DISTANCE_FROM_TOP = 30
-PLANE_TEXT_HEIGHT = 9
-PLANE_FONT = fonts.regular
-
+PLANE_DISTANCE_FROM_TOP = 31
+PLANE_TEXT_HEIGHT = 6
+PLANE_FONT = fonts.small
+PLANE_DISPLAY_START_POSITION = 5
+PLANE_CLOCK_SPEED = 100
 
 class PlaneDetailsScene(object):
     def __init__(self):
         super().__init__()
-        self.plane_position = screen.WIDTH
+        self.reset_scrolling()
+        self._plane_clock = 0
         self._data_all_looped = False
 
     @Animator.KeyFrame.add(1)
@@ -38,16 +40,16 @@ class PlaneDetailsScene(object):
         text_length = graphics.DrawText(
             self.canvas,
             PLANE_FONT,
-            self.plane_position,
+            self.draw_position,
             PLANE_DISTANCE_FROM_TOP,
             PLANE_DETAILS_COLOUR,
             plane,
         )
 
-        # Handle scrolling
-        self.plane_position -= 1
-        if self.plane_position + text_length < 0:
-            self.plane_position = screen.WIDTH
+        # Handle scrolling 
+        self._plane_clock += 1
+        if self._plane_clock > PLANE_CLOCK_SPEED:
+            self.reset_scrolling()
             if len(self._data) > 1:
                 self._data_index = (self._data_index + 1) % len(self._data)
                 self._data_all_looped = (not self._data_index) or self._data_all_looped
@@ -55,4 +57,5 @@ class PlaneDetailsScene(object):
 
     @Animator.KeyFrame.add(0)
     def reset_scrolling(self):
-        self.plane_position = screen.WIDTH
+        self.draw_position = PLANE_DISPLAY_START_POSITION
+        self._plane_clock = 0
