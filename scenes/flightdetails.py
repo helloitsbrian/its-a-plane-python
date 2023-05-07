@@ -27,7 +27,8 @@ DATA_INDEX_COLOUR = colours.GREY
 
 TOP_OF_PROGRESS_SECTION = FLIGHT_DETAILS_BAR_STARTING_POSITION[1] + (FLIGHT_NO_TEXT_HEIGHT // 2) + BAR_VPADDING
 BOTTOM_OF_PROGRESS_SECTION = FLIGHT_DETAILS_BAR_STARTING_POSITION[1] + (FLIGHT_NO_TEXT_HEIGHT // 2) + BAR_VPADDING + FLIGHT_PROGRESS_BAR_HEIGHT
-
+DEPARTURE_TIME_INDEX = (1, TOP_OF_PROGRESS_SECTION)
+ARRIVAL_TIME_INDEX = (screen.WIDTH - 21, TOP_OF_PROGRESS_SECTION)
 
 LOCAL_TZ = pytz.timezone("America/Denver")
 
@@ -124,10 +125,19 @@ class FlightDetailsScene(object):
         graphics.DrawText(
             self.canvas,
             fonts.extrasmall,
-            0,
-            BOTTOM_OF_PROGRESS_SECTION,
+            DEPARTURE_TIME_INDEX[0],
+            DEPARTURE_TIME_INDEX[1],
             DATA_INDEX_COLOUR,
             start_dt.strftime("%H:%M")
+        )
+
+        graphics.DrawText(
+            self.canvas,
+            fonts.extrasmall,
+            ARRIVAL_TIME_INDEX[0],
+            ARRIVAL_TIME_INDEX[1],
+            DATA_INDEX_COLOUR,
+            end_dt.strftime("%H:%M")
         )
 
     def _calculate_flight_duration_data(self):
