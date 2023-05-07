@@ -54,4 +54,4 @@ class PlaneDetailsScene(object):
 
     @Animator.KeyFrame.add(0)
     def reset_scrolling(self):
-        self.plane_position = 10
+        self.plane_position = 5
