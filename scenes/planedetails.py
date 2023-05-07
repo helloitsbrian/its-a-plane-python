@@ -9,12 +9,13 @@ PLANE_DISTANCE_FROM_TOP = 31
 PLANE_TEXT_HEIGHT = 6
 PLANE_FONT = fonts.small
 PLANE_DISPLAY_START_POSITION = 5
+PLANE_CLOCK_SPEED = 100
 
 class PlaneDetailsScene(object):
     def __init__(self):
         super().__init__()
         self.reset_scrolling()
-        self.foo = 0
+        self._plane_clock = 0
         self._data_all_looped = False
 
     @Animator.KeyFrame.add(1)
@@ -46,8 +47,8 @@ class PlaneDetailsScene(object):
         )
 
         # Handle scrolling 
-        self.foo += 1
-        if self.foo > 20:
+        self._plane_clock += 1
+        if self._plane_clock > PLANE_CLOCK_SPEED:
             self.reset_scrolling()
             if len(self._data) > 1:
                 self._data_index = (self._data_index + 1) % len(self._data)
@@ -57,4 +58,4 @@ class PlaneDetailsScene(object):
     @Animator.KeyFrame.add(0)
     def reset_scrolling(self):
         self.draw_position = PLANE_DISPLAY_START_POSITION
-        self.foo = 0
+        self._plane_clock = 0
