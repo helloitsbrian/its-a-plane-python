@@ -44,14 +44,14 @@ class PlaneDetailsScene(object):
             plane,
         )
 
-        # # Handle scrolling
-        # self.plane_position -= 1
-        # if self.plane_position + text_length < 0:
-        #     self.plane_position = screen.WIDTH
-        #     if len(self._data) > 1:
-        #         self._data_index = (self._data_index + 1) % len(self._data)
-        #         self._data_all_looped = (not self._data_index) or self._data_all_looped
-        #         self.reset_scene()
+        # Handle scrolling
+        self.plane_position -= 1
+        if self.plane_position + text_length < 0:
+            self.plane_position = screen.WIDTH
+            if len(self._data) > 1:
+                self._data_index = (self._data_index + 1) % len(self._data)
+                self._data_all_looped = (not self._data_index) or self._data_all_looped
+                self.reset_scene()
 
     @Animator.KeyFrame.add(0)
     def reset_scrolling(self):
