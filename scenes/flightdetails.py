@@ -116,7 +116,7 @@ class FlightDetailsScene(object):
             
             graphics.DrawText(
                 self.canvas,
-                fonts.small,
+                fonts.extrasmall,
                 0,
                 BOTTOM_OF_PROGRESS_SECTION,
                 DATA_INDEX_COLOUR,
@@ -132,6 +132,7 @@ class FlightDetailsScene(object):
                 screen.WIDTH,
                 FLIGHT_DETAILS_BAR_STARTING_POSITION[1],
                 DIVIDING_BAR_COLOUR,
+            
             )
 
     def _calculate_flight_duration_data(self):
