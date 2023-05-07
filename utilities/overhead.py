@@ -146,6 +146,7 @@ class Overhead:
                             "vertical_speed": flight.vertical_speed,
                             "altitude": flight.altitude,
                             "callsign": callsign,
+                            "time": details["time"],
                         }
                     )
                     break

@@ -1,5 +1,7 @@
 from utilities.animator import Animator
-from setup import colours, fonts, screen
+from setup import colours, fonts, screen 
+import datetime
+import pytz
 
 from rgbmatrix import graphics
 
@@ -23,6 +25,12 @@ DATA_INDEX_FONT = fonts.small
 DIVIDING_BAR_COLOUR = colours.GREEN
 DATA_INDEX_COLOUR = colours.GREY
 
+TOP_OF_PROGRESS_SECTION = FLIGHT_DETAILS_BAR_STARTING_POSITION[1] + (FLIGHT_NO_TEXT_HEIGHT // 2) + BAR_VPADDING
+BOTTOM_OF_PROGRESS_SECTION = FLIGHT_DETAILS_BAR_STARTING_POSITION[1] + (FLIGHT_NO_TEXT_HEIGHT // 2) + BAR_VPADDING + FLIGHT_PROGRESS_BAR_HEIGHT
+
+
+LOCAL_TZ = pytz.timezone("America/Denver")
+
 
 class FlightDetailsScene(object):
     def __init__(self):
@@ -40,7 +48,7 @@ class FlightDetailsScene(object):
             0,
             FLIGHT_DETAILS_BAR_STARTING_POSITION[1] - (FLIGHT_NO_TEXT_HEIGHT // 2),
             screen.WIDTH - 1,
-            FLIGHT_DETAILS_BAR_STARTING_POSITION[1] + (FLIGHT_NO_TEXT_HEIGHT // 2) + BAR_VPADDING + FLIGHT_PROGRESS_BAR_HEIGHT,
+            BOTTOM_OF_PROGRESS_SECTION,
             colours.BLACK,
         )
 
@@ -88,9 +96,9 @@ class FlightDetailsScene(object):
 
             self.draw_square(
                 0,
-                FLIGHT_DETAILS_BAR_STARTING_POSITION[1] + (FLIGHT_NO_TEXT_HEIGHT // 2) + BAR_VPADDING,
-                screen.WIDTH - 1,
-                FLIGHT_DETAILS_BAR_STARTING_POSITION[1] + (FLIGHT_NO_TEXT_HEIGHT // 2) + BAR_VPADDING + FLIGHT_PROGRESS_BAR_HEIGHT,
+                TOP_OF_PROGRESS_SECTION,
+                screen.WIDTH,
+                BOTTOM_OF_PROGRESS_SECTION,
                 DIVIDING_BAR_COLOUR,
             )
 
@@ -103,6 +111,18 @@ class FlightDetailsScene(object):
                 DATA_INDEX_COLOUR,
                 f"{self._data_index + 1}/{len(self._data)}",
             )
+
+            start_dt, ratio_completed, end_dt = self._calculate_flight_duration_data()
+            
+            graphics.DrawText(
+                self.canvas,
+                fonts.small,
+                0,
+                BOTTOM_OF_PROGRESS_SECTION,
+                DATA_INDEX_COLOUR,
+                start_dt.strftime("%H:%M")
+            )
+
         else:
             # Dividing bar
             graphics.DrawLine(
@@ -113,3 +133,18 @@ class FlightDetailsScene(object):
                 FLIGHT_DETAILS_BAR_STARTING_POSITION[1],
                 DIVIDING_BAR_COLOUR,
             )
+
+    def _calculate_flight_duration_data(self):
+        time_details = self._data[self._data_index]["time"]
+        start_time = time_details["real"].get("departure")
+        if not start_time:
+            start_time = time_details["estimated"].get("departure")
+        end_time = time_details["estimated"].get("arrival")
+        if not end_time:
+            end_time = start_time + time_details["scheduled"]["arrival"] - time_details["scheduled"]["departure"]
+        now = int(datetime.datetime.now(tz=pytz.timezone("UTC")).timestamp())
+        ratio_of_flight_completed = (now - start_time) / (end_time - start_time)
+        return self._timestamp_to_local_datetime(start_time), ratio_of_flight_completed, self._timestamp_to_local_datetime(end_time)
+    
+    def _timestamp_to_local_datetime(self, ts):
+        return datetime.datetime.utcfromtimestamp(ts).replace(tzinfo = pytz.utc).astimezone(LOCAL_TZ)
