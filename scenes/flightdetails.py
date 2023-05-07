@@ -94,14 +94,6 @@ class FlightDetailsScene(object):
                 DIVIDING_BAR_COLOUR,
             )
 
-            self.draw_square(
-                0,
-                TOP_OF_PROGRESS_SECTION,
-                screen.WIDTH,
-                BOTTOM_OF_PROGRESS_SECTION,
-                DIVIDING_BAR_COLOUR,
-            )
-
             # Draw text
             text_length = graphics.DrawText(
                 self.canvas,
@@ -110,17 +102,6 @@ class FlightDetailsScene(object):
                 DATA_INDEX_POSITION[1],
                 DATA_INDEX_COLOUR,
                 f"{self._data_index + 1}/{len(self._data)}",
-            )
-
-            start_dt, ratio_completed, end_dt = self._calculate_flight_duration_data()
-            
-            graphics.DrawText(
-                self.canvas,
-                fonts.extrasmall,
-                0,
-                BOTTOM_OF_PROGRESS_SECTION,
-                DATA_INDEX_COLOUR,
-                start_dt.strftime("%H:%M")
             )
 
         else:
@@ -134,6 +115,20 @@ class FlightDetailsScene(object):
                 DIVIDING_BAR_COLOUR,
             
             )
+            
+        self._draw_progress_data()
+        
+    def _draw_progress_data(self):
+        start_dt, ratio_completed, end_dt = self._calculate_flight_duration_data()
+            
+        graphics.DrawText(
+            self.canvas,
+            fonts.extrasmall,
+            0,
+            BOTTOM_OF_PROGRESS_SECTION,
+            DATA_INDEX_COLOUR,
+            start_dt.strftime("%H:%M")
+        )
 
     def _calculate_flight_duration_data(self):
         time_details = self._data[self._data_index]["time"]
