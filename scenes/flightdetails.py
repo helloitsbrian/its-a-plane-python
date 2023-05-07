@@ -87,7 +87,7 @@ class FlightDetailsScene(object):
             # Draw text
             text_length = graphics.DrawText(
                 self.canvas,
-                fonts.extrasmall,
+                fonts.small,
                 DATA_INDEX_POSITION[0],
                 DATA_INDEX_POSITION[1],
                 DATA_INDEX_COLOUR,
