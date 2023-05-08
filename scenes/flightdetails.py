@@ -30,7 +30,7 @@ BOTTOM_OF_PROGRESS_SECTION = FLIGHT_DETAILS_BAR_STARTING_POSITION[1] + (FLIGHT_N
 DEPARTURE_TIME_INDEX = (1, BOTTOM_OF_PROGRESS_SECTION)
 ARRIVAL_TIME_INDEX = (screen.WIDTH - 20, BOTTOM_OF_PROGRESS_SECTION)
 PROGRESS_BAR_INDEX = (22,(TOP_OF_PROGRESS_SECTION + BOTTOM_OF_PROGRESS_SECTION) // 2)
-FLIGHT_TIME_UNKNOWN = " ? "
+DELAYED_TEXT_COLOUR = colours.RED_LIGHT
 
 LOCAL_TZ = pytz.timezone("America/Denver")
 
@@ -123,14 +123,21 @@ class FlightDetailsScene(object):
         
     def _draw_progress_data(self):
         start_dt, ratio_completed, end_dt = self._calculate_flight_duration_data()
+        departure_time_colour = DATA_INDEX_COLOUR
+
+        scheduled_departure_time = self._data[self._data_index]["time"]["scheduled"].get("departure")
+        real_departure_time = self._data[self._data_index][self._data_index]["time"]["real"].get("departure")
+
+        if real_departure_time and real_departure_time > scheduled_departure_time:
+            departure_time_colour = DELAYED_TEXT_COLOUR
 
         if start_dt and end_dt:      
             graphics.DrawText(
                 self.canvas,
                 fonts.extrasmall,
                 DEPARTURE_TIME_INDEX[0],
-                DEPARTURE_TIME_INDEX[1],
-                DATA_INDEX_COLOUR,
+                DEPARTURE_TIME_INDEX[1],              
+                departure_time_colour,
                 start_dt.strftime("%H:%M")
             )
 
@@ -138,7 +145,7 @@ class FlightDetailsScene(object):
                 self.canvas,
                 fonts.extrasmall,
                 ARRIVAL_TIME_INDEX[0],
-                ARRIVAL_TIME_INDEX[1],
+                ARRIVAL_TIME_INDEX[1],            
                 DATA_INDEX_COLOUR,
                 end_dt.strftime("%H:%M")
             )
@@ -162,13 +169,23 @@ class FlightDetailsScene(object):
             )
 
     def _calculate_flight_duration_data(self):
+        # Get the flight time details
         time_details = self._data[self._data_index]["time"]
+        
+        # Get the documented, real departure time
         start_time = time_details["real"].get("departure")
+
+        # If there is no real departure time documented, get the estimated/scheduled departure time
         if not start_time:
             start_time = time_details["estimated"].get("departure")
+
+        # Get the documented, real departure time
         end_time = time_details["estimated"].get("arrival")
+
+        # If there is no estimated arrival time, extrapolate from scheduled length and start_time    
         if not end_time:
             end_time = start_time + time_details["scheduled"]["arrival"] - time_details["scheduled"]["departure"]
+
         now = int(datetime.datetime.now(tz=pytz.timezone("UTC")).timestamp())
         ratio_of_flight_completed = (now - start_time) / (end_time - start_time)
         return self._timestamp_to_local_datetime(start_time), ratio_of_flight_completed, self._timestamp_to_local_datetime(end_time)
