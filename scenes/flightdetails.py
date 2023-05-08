@@ -30,7 +30,8 @@ BOTTOM_OF_PROGRESS_SECTION = FLIGHT_DETAILS_BAR_STARTING_POSITION[1] + (FLIGHT_N
 DEPARTURE_TIME_INDEX = (1, BOTTOM_OF_PROGRESS_SECTION)
 ARRIVAL_TIME_INDEX = (screen.WIDTH - 20, BOTTOM_OF_PROGRESS_SECTION)
 PROGRESS_BAR_INDEX = (22,(TOP_OF_PROGRESS_SECTION + BOTTOM_OF_PROGRESS_SECTION) // 2)
-DELAYED_TEXT_COLOUR = colours.RED
+DELAYED_TEXT_COLOUR = colours.RED_LIGHT
+DELAY_TIME_WINDOW_SECONDS = 1800
 
 LOCAL_TZ = pytz.timezone("America/Denver")
 
@@ -131,10 +132,10 @@ class FlightDetailsScene(object):
         scheduled_arrival_time = self._data[self._data_index]["time"]["scheduled"].get("arrival")
         estimated_arrival_time = self._data[self._data_index]["time"]["estimated"].get("arrival")
 
-        if real_departure_time and real_departure_time > scheduled_departure_time:
+        if real_departure_time and real_departure_time > (scheduled_departure_time + DELAY_TIME_WINDOW_SECONDS):
             departure_time_colour = DELAYED_TEXT_COLOUR
 
-        if estimated_arrival_time and estimated_arrival_time > scheduled_arrival_time:
+        if estimated_arrival_time and estimated_arrival_time > (scheduled_arrival_time + DELAY_TIME_WINDOW_SECONDS):
             arrival_time_colour = DELAYED_TEXT_COLOUR
 
         if start_dt and end_dt:      
