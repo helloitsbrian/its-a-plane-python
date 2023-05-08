@@ -30,7 +30,7 @@ BOTTOM_OF_PROGRESS_SECTION = FLIGHT_DETAILS_BAR_STARTING_POSITION[1] + (FLIGHT_N
 DEPARTURE_TIME_INDEX = (1, BOTTOM_OF_PROGRESS_SECTION)
 ARRIVAL_TIME_INDEX = (screen.WIDTH - 20, BOTTOM_OF_PROGRESS_SECTION)
 PROGRESS_BAR_INDEX = (22,(TOP_OF_PROGRESS_SECTION + BOTTOM_OF_PROGRESS_SECTION) // 2)
-DELAYED_TEXT_COLOUR = colours.RED_LIGHT
+DELAYED_TEXT_COLOUR = colours.RED
 
 LOCAL_TZ = pytz.timezone("America/Denver")
 
@@ -124,12 +124,18 @@ class FlightDetailsScene(object):
     def _draw_progress_data(self):
         start_dt, ratio_completed, end_dt = self._calculate_flight_duration_data()
         departure_time_colour = DATA_INDEX_COLOUR
+        arrival_time_colour = DATA_INDEX_COLOUR
 
         scheduled_departure_time = self._data[self._data_index]["time"]["scheduled"].get("departure")
         real_departure_time = self._data[self._data_index]["time"]["real"].get("departure")
+        scheduled_arrival_time = self._data[self._data_index]["time"]["scheduled"].get("arrival")
+        estimated_arrival_time = self._data[self._data_index]["time"]["estimated"].get("arrival")
 
         if real_departure_time and real_departure_time > scheduled_departure_time:
             departure_time_colour = DELAYED_TEXT_COLOUR
+
+        if estimated_arrival_time and estimated_arrival_time > scheduled_arrival_time:
+            arrival_time_colour = DELAYED_TEXT_COLOUR
 
         if start_dt and end_dt:      
             graphics.DrawText(
@@ -146,7 +152,7 @@ class FlightDetailsScene(object):
                 fonts.extrasmall,
                 ARRIVAL_TIME_INDEX[0],
                 ARRIVAL_TIME_INDEX[1],            
-                DATA_INDEX_COLOUR,
+                arrival_time_colour,
                 end_dt.strftime("%H:%M")
             )
 
