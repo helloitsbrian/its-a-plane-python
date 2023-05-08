@@ -126,7 +126,7 @@ class FlightDetailsScene(object):
         departure_time_colour = DATA_INDEX_COLOUR
 
         scheduled_departure_time = self._data[self._data_index]["time"]["scheduled"].get("departure")
-        real_departure_time = self._data[self._data_index][self._data_index]["time"]["real"].get("departure")
+        real_departure_time = self._data[self._data_index]["time"]["real"].get("departure")
 
         if real_departure_time and real_departure_time > scheduled_departure_time:
             departure_time_colour = DELAYED_TEXT_COLOUR
