@@ -25,7 +25,8 @@ class PlaneDetailsScene(object):
         if len(self._data) == 0:
             return
 
-        plane = f'{self._data[self._data_index]["plane"]}'
+        plane_model = f'{self._data[self._data_index]["plane_model"]}'
+        plane_registration = f'{self._data[self._data_index]["plane_registration"]}'
 
         # Draw background
         self.draw_square(
@@ -36,14 +37,23 @@ class PlaneDetailsScene(object):
             colours.BLACK,
         )
 
-        # Draw text
-        text_length = graphics.DrawText(
+        # # Draw text
+        # graphics.DrawText(
+        #     self.canvas,
+        #     PLANE_FONT,
+        #     self.draw_position,
+        #     PLANE_DISTANCE_FROM_TOP,
+        #     PLANE_DETAILS_COLOUR,
+        #     plane_model,
+        # )
+
+        graphics.DrawText(
             self.canvas,
             PLANE_FONT,
             self.draw_position,
             PLANE_DISTANCE_FROM_TOP,
             PLANE_DETAILS_COLOUR,
-            plane,
+            plane_registration,
         )
 
         # Handle scrolling 

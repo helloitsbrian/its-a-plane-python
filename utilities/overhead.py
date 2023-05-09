@@ -110,14 +110,21 @@ class Overhead:
                 try:
                     details = self._api.get_flight_details(flight.id)
 
-                    # Get plane type
+                    # Get plane model
                     try:
-                        plane = details["aircraft"]["model"]["code"] + "·" + details["aircraft"]["registration"]
+                        plane_model = details["aircraft"]["model"]["code"] + "·" + details["aircraft"]["registration"]
                     except (KeyError, TypeError):
-                        plane = ""
+                        plane_model = ""
+
+                    # Get plane registration
+                    try:
+                        plane_registration = details["aircraft"]["registration"]
+                    except (KeyError, TypeError):
+                        plane_registration = ""
 
                     # Tidy up what we pass along
-                    plane = plane if not (plane.upper() in BLANK_FIELDS) else ""
+                    plane_model = plane_model if not (plane_model.upper() in BLANK_FIELDS) else ""
+                    plane_registration = plane_registration if not (plane_registration.upper() in BLANK_FIELDS) else ""
 
                     origin = (
                         flight.origin_airport_iata
@@ -139,7 +146,8 @@ class Overhead:
 
                     data.append(
                         {
-                            "plane": plane,
+                            "plane_model": plane_model,
+                            "plane_registration": plane_registration,
                             "origin": origin,
                             "destination": destination,
                             "vertical_speed": flight.vertical_speed,
