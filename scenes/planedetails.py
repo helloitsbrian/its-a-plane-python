@@ -10,6 +10,7 @@ PLANE_TEXT_HEIGHT = 6
 PLANE_FONT = fonts.small
 PLANE_DISPLAY_START_POSITION = 5
 PLANE_CLOCK_SPEED = 100
+SEPARATOR_TEXT = "·"
 
 class PlaneDetailsScene(object):
     def __init__(self):
@@ -37,20 +38,57 @@ class PlaneDetailsScene(object):
             colours.BLACK,
         )
 
-        # # Draw text
-        # graphics.DrawText(
-        #     self.canvas,
-        #     PLANE_FONT,
-        #     self.draw_position,
-        #     PLANE_DISTANCE_FROM_TOP,
-        #     PLANE_DETAILS_COLOUR,
-        #     plane_model,
-        # )
+        model_width = graphics.DrawText(
+            self.canvas,
+            PLANE_FONT,
+            self.draw_position,
+            PLANE_DISTANCE_FROM_TOP,
+            PLANE_DETAILS_COLOUR,
+            plane_model,
+        )
 
+        registration_width = graphics.DrawText(
+            self.canvas,
+            PLANE_FONT,
+            self.draw_position,
+            PLANE_DISTANCE_FROM_TOP,
+            PLANE_DETAILS_COLOUR,
+            plane_registration,
+        )
+
+        separator_width = graphics.DrawText(
+            self.canvas,
+            PLANE_FONT,
+            self.draw_position,
+            PLANE_DISTANCE_FROM_TOP,
+            PLANE_DETAILS_COLOUR,
+            SEPARATOR_TEXT,
+        )
+
+        # Draw ICAO plane model text
         graphics.DrawText(
             self.canvas,
             PLANE_FONT,
             self.draw_position,
+            PLANE_DISTANCE_FROM_TOP,
+            PLANE_DETAILS_COLOUR,
+            plane_model,
+        )
+
+        graphics.DrawText(
+            self.canvas,
+            PLANE_FONT,
+            (self.draw_position + model_width),
+            PLANE_DISTANCE_FROM_TOP,
+            PLANE_DETAILS_COLOUR,
+            SEPARATOR_TEXT,            
+        )
+
+        # Draw plane tail number text
+        graphics.DrawText(
+            self.canvas,
+            PLANE_FONT,
+            (self.draw_position + model_width + separator_width),
             PLANE_DISTANCE_FROM_TOP,
             PLANE_DETAILS_COLOUR,
             plane_registration,
