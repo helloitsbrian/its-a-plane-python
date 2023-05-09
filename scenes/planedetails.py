@@ -38,6 +38,7 @@ class PlaneDetailsScene(object):
             colours.BLACK,
         )
 
+        # Draw ICAO plane model text
         model_width = graphics.DrawText(
             self.canvas,
             PLANE_FONT,
@@ -47,35 +48,7 @@ class PlaneDetailsScene(object):
             plane_model,
         )
 
-        registration_width = graphics.DrawText(
-            self.canvas,
-            PLANE_FONT,
-            self.draw_position,
-            PLANE_DISTANCE_FROM_TOP,
-            PLANE_DETAILS_COLOUR,
-            plane_registration,
-        )
-
         separator_width = graphics.DrawText(
-            self.canvas,
-            PLANE_FONT,
-            self.draw_position,
-            PLANE_DISTANCE_FROM_TOP,
-            PLANE_DETAILS_COLOUR,
-            SEPARATOR_TEXT,
-        )
-
-        # Draw ICAO plane model text
-        graphics.DrawText(
-            self.canvas,
-            PLANE_FONT,
-            self.draw_position,
-            PLANE_DISTANCE_FROM_TOP,
-            PLANE_DETAILS_COLOUR,
-            plane_model,
-        )
-
-        graphics.DrawText(
             self.canvas,
             PLANE_FONT,
             (self.draw_position + model_width),
