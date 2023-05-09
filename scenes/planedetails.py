@@ -3,8 +3,15 @@ from rgbmatrix import graphics
 from utilities.animator import Animator
 from setup import colours, fonts, screen
 
+try:
+    from config import PLANES_IVE_BEEN_ON
+
+except (ModuleNotFoundError, NameError, ImportError):
+    # If there's no config data
+    PLANES_IVE_BEEN_ON = []  
+
 # Setup
-PLANE_DETAILS_COLOUR = colours.WHITE
+PLANE_MODEL_COLOUR = colours.WHITE
 PLANE_DISTANCE_FROM_TOP = 31
 PLANE_TEXT_HEIGHT = 6
 PLANE_FONT = fonts.small
@@ -44,7 +51,7 @@ class PlaneDetailsScene(object):
             PLANE_FONT,
             self.draw_position,
             PLANE_DISTANCE_FROM_TOP,
-            PLANE_DETAILS_COLOUR,
+            PLANE_MODEL_COLOUR,
             plane_model,
         )
 
@@ -53,17 +60,22 @@ class PlaneDetailsScene(object):
             PLANE_FONT,
             (self.draw_position + model_width),
             PLANE_DISTANCE_FROM_TOP,
-            PLANE_DETAILS_COLOUR,
+            PLANE_MODEL_COLOUR,
             SEPARATOR_TEXT,            
         )
 
         # Draw plane tail number text
+        if plane_registration in PLANES_IVE_BEEN_ON:
+            plane_registration_colour = colours.GREEN
+        else:
+            plane_registration_colour = colours.WHITE
+
         graphics.DrawText(
             self.canvas,
             PLANE_FONT,
             (self.draw_position + model_width + separator_width),
             PLANE_DISTANCE_FROM_TOP,
-            PLANE_DETAILS_COLOUR,
+            plane_registration_colour,
             plane_registration,
         )
 
