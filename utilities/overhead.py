@@ -112,7 +112,7 @@ class Overhead:
 
                     # Get plane model
                     try:
-                        plane_model = details["aircraft"]["model"]["code"] + "·" + details["aircraft"]["registration"]
+                        plane_model = details["aircraft"]["model"]["code"]
                     except (KeyError, TypeError):
                         plane_model = ""
 
