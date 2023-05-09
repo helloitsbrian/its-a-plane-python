@@ -66,7 +66,7 @@ class PlaneDetailsScene(object):
 
         # Draw plane tail number text
         if plane_registration in PLANES_IVE_BEEN_ON:
-            plane_registration_colour = colours.GREEN
+            plane_registration_colour = colours.GREEN_LIGHT
         else:
             plane_registration_colour = colours.WHITE
 
