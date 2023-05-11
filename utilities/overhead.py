@@ -110,6 +110,7 @@ class Overhead:
                 # Grab and store details
                 try:
                     details = self._api.get_flight_details(flight.id)
+                    pprint.pprint(details)
 
                     # Get plane model
                     try:
@@ -154,7 +155,7 @@ class Overhead:
                             "vertical_speed": flight.vertical_speed,
                             "altitude": flight.altitude,
                             "callsign": callsign,
-                            "time": details["time"],
+                            # "time": details["time"],
                         }
                     )
                     break
