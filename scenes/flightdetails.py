@@ -141,7 +141,7 @@ class FlightDetailsScene(object):
             arrival_time_colour = DELAYED_COLOUR
             progress_bar_colour = DELAYED_COLOUR
 
-        if start_dt and end_dt:      
+        if isinstance(start_dt, datetime.datetime):      
             graphics.DrawText(
                 self.canvas,
                 fonts.extrasmall,
@@ -150,35 +150,7 @@ class FlightDetailsScene(object):
                 departure_time_colour,
                 start_dt.strftime("%H:%M")
             )
-
-            graphics.DrawText(
-                self.canvas,
-                fonts.extrasmall,
-                ARRIVAL_TIME_INDEX[0],
-                ARRIVAL_TIME_INDEX[1],            
-                arrival_time_colour,
-                end_dt.strftime("%H:%M")
-            )
-
-            graphics.DrawLine(
-                self.canvas,
-                PROGRESS_BAR_INDEX[0],
-                PROGRESS_BAR_INDEX[1],
-                PROGRESS_BAR_INDEX[0] + 19,
-                PROGRESS_BAR_INDEX[1],
-                colours.WHITE,
-            )
-            
-            graphics.DrawLine(
-                self.canvas,
-                PROGRESS_BAR_INDEX[0],
-                PROGRESS_BAR_INDEX[1],
-                PROGRESS_BAR_INDEX[0] + min([18, int(19 * ratio_completed)]),
-                PROGRESS_BAR_INDEX[1],
-                progress_bar_colour,
-            )
-
-        else:  
+        else:
             graphics.DrawText(
                 self.canvas,
                 fonts.extrasmall,
@@ -188,6 +160,16 @@ class FlightDetailsScene(object):
                 "N/A"
             )
 
+        if isinstance(end_dt, datetime.datetime):
+            graphics.DrawText(
+                self.canvas,
+                fonts.extrasmall,
+                ARRIVAL_TIME_INDEX[0],
+                ARRIVAL_TIME_INDEX[1],            
+                arrival_time_colour,
+                end_dt.strftime("%H:%M")
+            )
+        else:
             graphics.DrawText(
                 self.canvas,
                 fonts.extrasmall,
@@ -197,23 +179,23 @@ class FlightDetailsScene(object):
                 "N/A"
             )
 
-            graphics.DrawLine(
-                self.canvas,
-                PROGRESS_BAR_INDEX[0],
-                PROGRESS_BAR_INDEX[1],
-                PROGRESS_BAR_INDEX[0] + 19,
-                PROGRESS_BAR_INDEX[1],
-                colours.WHITE,
-            )
-            
-            graphics.DrawLine(
-                self.canvas,
-                PROGRESS_BAR_INDEX[0],
-                PROGRESS_BAR_INDEX[1],
-                PROGRESS_BAR_INDEX[0] + min([18, int(19 * DEFAULT_BAR_PROGRESS)]),
-                PROGRESS_BAR_INDEX[1],
-                progress_bar_colour,
-            )
+        graphics.DrawLine(
+            self.canvas,
+            PROGRESS_BAR_INDEX[0],
+            PROGRESS_BAR_INDEX[1],
+            PROGRESS_BAR_INDEX[0] + 19,
+            PROGRESS_BAR_INDEX[1],
+            colours.WHITE,
+        )
+
+        graphics.DrawLine(
+            self.canvas,
+            PROGRESS_BAR_INDEX[0],
+            PROGRESS_BAR_INDEX[1],
+            PROGRESS_BAR_INDEX[0] + min([18, int(19 * ratio_completed)]),
+            PROGRESS_BAR_INDEX[1],
+            progress_bar_colour,
+        )
 
     def _calculate_flight_duration_data(self):
         # Get the flight time details
