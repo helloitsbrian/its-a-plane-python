@@ -226,24 +226,14 @@ class FlightDetailsScene(object):
         # If there is no real departure time documented, get the estimated/scheduled departure time
         if not start_time:
             start_time = scheduled_departure_time
-            
-            if not start_time:
-                start_time = "N/A"
-                null_start_time = start_time
 
         # If there is no estimated arrival time, extrapolate from scheduled length and start_time    
         if not end_time:
             end_time = start_time + scheduled_arrival_time - scheduled_departure_time
-            
-            if not end_time:
-                end_time = "N/A"
-                null_end_time = end_time
 
         now = int(datetime.datetime.now(tz=pytz.timezone("UTC")).timestamp())
 
-        if null_start_time or null_end_time:
-            return null_start_time, DEFAULT_BAR_PROGRESS, null_end_time
-        elif (end_time - start_time) == 0:
+        if (end_time - start_time) == 0:
             ratio_of_flight_completed = DEFAULT_BAR_PROGRESS
         else:
             ratio_of_flight_completed = (now - start_time) / (end_time - start_time)
