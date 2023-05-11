@@ -6,7 +6,7 @@ from setup import colours, fonts, frames
 from rgbmatrix import graphics
 
 # Setup
-CLOCK_FONT = fonts.large_bold
+CLOCK_FONT = fonts.super_large_bold
 CLOCK_POSITION = (12, 18)
 CLOCK_COLOUR = colours.YELLOW
 
