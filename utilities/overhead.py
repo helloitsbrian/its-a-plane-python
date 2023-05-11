@@ -110,6 +110,7 @@ class Overhead:
                 # Grab and store details
                 try:
                     details = self._api.get_flight_details(flight.id)
+                    print(type(details))
 
                     # Get plane model
                     try:
@@ -146,11 +147,6 @@ class Overhead:
                         est_arrival = details["time"]["estimated"]["arrival"]
                     except (KeyError, TypeError):
                         est_arrival = ""
-                    
-                    pprint.pprint(scheduled_departure)
-                    pprint.pprint(real_departure)
-                    pprint.pprint(scheduled_arrival)
-                    pprint.pprint(est_arrival)
 
                     # Tidy up what we pass along
                     plane_model = plane_model if not (plane_model.upper() in BLANK_FIELDS) else ""
