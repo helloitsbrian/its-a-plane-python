@@ -30,6 +30,7 @@ BOTTOM_OF_PROGRESS_SECTION = FLIGHT_DETAILS_BAR_STARTING_POSITION[1] + (FLIGHT_N
 DEPARTURE_TIME_INDEX = (1, BOTTOM_OF_PROGRESS_SECTION)
 ARRIVAL_TIME_INDEX = (screen.WIDTH - 20, BOTTOM_OF_PROGRESS_SECTION)
 PROGRESS_BAR_INDEX = (22,(TOP_OF_PROGRESS_SECTION + BOTTOM_OF_PROGRESS_SECTION) // 2)
+DEFAULT_BAR_PROGRESS = 0.5
 DELAYED_COLOUR = colours.RED_LIGHT
 DELAY_TIME_WINDOW_SECONDS = 1800
 
@@ -177,6 +178,43 @@ class FlightDetailsScene(object):
                 progress_bar_colour,
             )
 
+        else:  
+            graphics.DrawText(
+                self.canvas,
+                fonts.extrasmall,
+                DEPARTURE_TIME_INDEX[0],
+                DEPARTURE_TIME_INDEX[1],              
+                departure_time_colour,
+                "N/A"
+            )
+
+            graphics.DrawText(
+                self.canvas,
+                fonts.extrasmall,
+                ARRIVAL_TIME_INDEX[0],
+                ARRIVAL_TIME_INDEX[1],            
+                arrival_time_colour,
+                "N/A"
+            )
+
+            graphics.DrawLine(
+                self.canvas,
+                PROGRESS_BAR_INDEX[0],
+                PROGRESS_BAR_INDEX[1],
+                PROGRESS_BAR_INDEX[0] + 19,
+                PROGRESS_BAR_INDEX[1],
+                colours.WHITE,
+            )
+            
+            graphics.DrawLine(
+                self.canvas,
+                PROGRESS_BAR_INDEX[0],
+                PROGRESS_BAR_INDEX[1],
+                PROGRESS_BAR_INDEX[0] + min([18, int(19 * DEFAULT_BAR_PROGRESS)]),
+                PROGRESS_BAR_INDEX[1],
+                progress_bar_colour,
+            )
+
     def _calculate_flight_duration_data(self):
         # Get the flight time details
 
@@ -188,14 +226,25 @@ class FlightDetailsScene(object):
         # If there is no real departure time documented, get the estimated/scheduled departure time
         if not start_time:
             start_time = scheduled_departure_time
+            
+            if not start_time:
+                start_time = "N/A"
+                null_start_time = start_time
 
         # If there is no estimated arrival time, extrapolate from scheduled length and start_time    
         if not end_time:
             end_time = start_time + scheduled_arrival_time - scheduled_departure_time
+            
+            if not end_time:
+                end_time = "N/A"
+                null_end_time = end_time
 
         now = int(datetime.datetime.now(tz=pytz.timezone("UTC")).timestamp())
-        if (end_time - start_time) == 0:
-            ratio_of_flight_completed = 0.5
+
+        if null_start_time or null_end_time:
+            return null_start_time, DEFAULT_BAR_PROGRESS, null_end_time
+        elif (end_time - start_time) == 0:
+            ratio_of_flight_completed = DEFAULT_BAR_PROGRESS
         else:
             ratio_of_flight_completed = (now - start_time) / (end_time - start_time)
         
