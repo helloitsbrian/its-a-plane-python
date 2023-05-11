@@ -89,6 +89,7 @@ class Overhead:
         # Grab flight details
         bounds = self._api.get_bounds(ZONE_DEFAULT)
         flights = self._api.get_flights(bounds=bounds)
+        pprint.pprint(flights)
 
         # Sort flights by closest first
         flights = [
