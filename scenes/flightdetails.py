@@ -128,10 +128,10 @@ class FlightDetailsScene(object):
         arrival_time_colour = DATA_INDEX_COLOUR
         progress_bar_colour = DIVIDING_BAR_COLOUR
 
-        scheduled_departure_time = self._data[self._data_index]["time"]["scheduled"].get("departure")
-        real_departure_time = self._data[self._data_index]["time"]["real"].get("departure")
-        scheduled_arrival_time = self._data[self._data_index]["time"]["scheduled"].get("arrival")
-        estimated_arrival_time = self._data[self._data_index]["time"]["estimated"].get("arrival")
+        scheduled_departure_time = self._data[self._data_index]["scheduled_departure"]
+        real_departure_time = self._data[self._data_index]["real_departure"]
+        scheduled_arrival_time = self._data[self._data_index]["scheduled_arrival"]
+        estimated_arrival_time = self._data[self._data_index]["estimated_arrival"]
 
         if real_departure_time and real_departure_time > (scheduled_departure_time + DELAY_TIME_WINDOW_SECONDS):
             departure_time_colour = DELAYED_COLOUR
@@ -182,18 +182,19 @@ class FlightDetailsScene(object):
         time_details = self._data[self._data_index]["time"]
         
         # Get the documented, real departure time
-        start_time = time_details["real"].get("departure")
+
+        scheduled_departure_time = self._data[self._data_index]["scheduled_departure"]
+        start_time = self._data[self._data_index]["real_departure"]
+        scheduled_arrival_time = self._data[self._data_index]["scheduled_arrival"]
+        end_time = self._data[self._data_index]["estimated_arrival"]
 
         # If there is no real departure time documented, get the estimated/scheduled departure time
         if not start_time:
-            start_time = time_details["estimated"].get("departure")
-
-        # Get the documented, real departure time
-        end_time = time_details["estimated"].get("arrival")
+            start_time = scheduled_departure_time
 
         # If there is no estimated arrival time, extrapolate from scheduled length and start_time    
         if not end_time:
-            end_time = start_time + time_details["scheduled"]["arrival"] - time_details["scheduled"]["departure"]
+            end_time = start_time + scheduled_arrival_time - scheduled_departure_time
 
         now = int(datetime.datetime.now(tz=pytz.timezone("UTC")).timestamp())
         ratio_of_flight_completed = (now - start_time) / (end_time - start_time)
