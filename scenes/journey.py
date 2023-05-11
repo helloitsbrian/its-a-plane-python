@@ -26,7 +26,7 @@ JOURNEY_SPACING = 16
 JOURNEY_FONT = fonts.large_bold
 JOURNEY_FONT_SELECTED = fonts.large_bold
 JOURNEY_COLOUR = colours.WHITE
-SELECTED_COLOUR = colours.YELLOW_DARK
+SELECTED_COLOUR = colours.YELLOW
 ARROW_COLOUR = colours.GREEN
 
 # Element Positions
