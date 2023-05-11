@@ -40,7 +40,7 @@ class Display(
     LoadingPulseScene,
     PlaneDetailsScene,
     ClockScene,
-    DateScene,
+    # DateScene,
     Animator,
 ):
     def __init__(self):

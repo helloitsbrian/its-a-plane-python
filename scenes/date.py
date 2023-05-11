@@ -11,43 +11,43 @@ DATE_FONT = fonts.small
 DATE_POSITION = (4, 26)
 
 
-class DateScene(object):
-    def __init__(self):
-        super().__init__()
-        self._last_date = None
+# class DateScene(object):
+#     def __init__(self):
+#         super().__init__()
+#         self._last_date = None
 
-    @Animator.KeyFrame.add(frames.PER_SECOND * 1)
-    def date(self, count):
-        if len(self._data):
-            # Ensure redraw when there's new data
-            self._last_date = None
+#     @Animator.KeyFrame.add(frames.PER_SECOND * 1)
+#     def date(self, count):
+#         if len(self._data):
+#             # Ensure redraw when there's new data
+#             self._last_date = None
 
-        else:
-            # If there's no data to display
-            # then draw the date
-            now = datetime.now()
-            current_date = now.strftime("%a, %b %d")
+#         else:
+#             # If there's no data to display
+#             # then draw the date
+#             now = datetime.now()
+#             current_date = now.strftime("%a, %b %d")
 
-            # Only draw if date needs updated
-            if self._last_date != current_date:
-                # Undraw last date if different from current
-                if not self._last_date is None:
-                    _ = graphics.DrawText(
-                        self.canvas,
-                        DATE_FONT,
-                        DATE_POSITION[0],
-                        DATE_POSITION[1],
-                        colours.BLACK,
-                        self._last_date,
-                    )
-                self._last_date = current_date
+#             # Only draw if date needs updated
+#             if self._last_date != current_date:
+#                 # Undraw last date if different from current
+#                 if not self._last_date is None:
+#                     _ = graphics.DrawText(
+#                         self.canvas,
+#                         DATE_FONT,
+#                         DATE_POSITION[0],
+#                         DATE_POSITION[1],
+#                         colours.BLACK,
+#                         self._last_date,
+#                     )
+#                 self._last_date = current_date
 
-                # Draw date
-                _ = graphics.DrawText(
-                    self.canvas,
-                    DATE_FONT,
-                    DATE_POSITION[0],
-                    DATE_POSITION[1],
-                    DATE_COLOUR,
-                    current_date,
-                )
+#                 # Draw date
+#                 _ = graphics.DrawText(
+#                     self.canvas,
+#                     DATE_FONT,
+#                     DATE_POSITION[0],
+#                     DATE_POSITION[1],
+#                     DATE_COLOUR,
+#                     current_date,
+#                 )
