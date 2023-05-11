@@ -101,7 +101,6 @@ class Overhead:
 
         for flight in flights[:MAX_FLIGHT_LOOKUP]:
             retries = RETRIES
-            pprint.pprint(flights)
 
             while retries:
                 # Rate limit protection
@@ -110,7 +109,6 @@ class Overhead:
                 # Grab and store details
                 try:
                     details = self._api.get_flight_details(flight.id)
-                    print(type(details))
 
                     # Get plane model
                     try:

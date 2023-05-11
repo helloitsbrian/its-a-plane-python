@@ -179,9 +179,6 @@ class FlightDetailsScene(object):
 
     def _calculate_flight_duration_data(self):
         # Get the flight time details
-        time_details = self._data[self._data_index]["time"]
-        
-        # Get the documented, real departure time
 
         scheduled_departure_time = self._data[self._data_index]["scheduled_departure"]
         start_time = self._data[self._data_index]["real_departure"]
