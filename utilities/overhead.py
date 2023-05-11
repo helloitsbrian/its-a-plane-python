@@ -89,7 +89,6 @@ class Overhead:
         # Grab flight details
         bounds = self._api.get_bounds(ZONE_DEFAULT)
         flights = self._api.get_flights(bounds=bounds)
-        pprint.pprint(flights)
 
         # Sort flights by closest first
         flights = [
@@ -110,7 +109,6 @@ class Overhead:
                 # Grab and store details
                 try:
                     details = self._api.get_flight_details(flight.id)
-                    pprint.pprint(details)
 
                     # Get plane model
                     try:
@@ -123,6 +121,35 @@ class Overhead:
                         plane_registration = details["aircraft"]["registration"]
                     except (KeyError, TypeError):
                         plane_registration = ""
+
+                    # Get scheduled departure time
+                    try:
+                        scheduled_departure = details["time"]["scheduled"]["departure"]
+                    except (KeyError, TypeError):
+                        scheduled_departure = ""
+
+                    # Get actual departure time
+                    try:
+                        real_departure = details["time"]["real"]["departure"]
+                    except (KeyError, TypeError):
+                        real_departure = ""
+
+                    # Get scheduled arrival time
+                    try:
+                        scheduled_arrival = details["time"]["scheduled"]["arrival"]
+                    except (KeyError, TypeError):
+                        scheduled_arrival = ""
+
+                    # Get estimated arrival time
+                    try:
+                        est_arrival = details["time"]["estimated"]["arrival"]
+                    except (KeyError, TypeError):
+                        est_arrival = ""
+                    
+                    pprint.pprint(scheduled_departure)
+                    pprint.pprint(real_departure)
+                    pprint.pprint(scheduled_arrival)
+                    pprint.pprint(est_arrival)
 
                     # Tidy up what we pass along
                     plane_model = plane_model if not (plane_model.upper() in BLANK_FIELDS) else ""
