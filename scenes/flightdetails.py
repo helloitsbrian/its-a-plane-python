@@ -194,7 +194,11 @@ class FlightDetailsScene(object):
             end_time = start_time + scheduled_arrival_time - scheduled_departure_time
 
         now = int(datetime.datetime.now(tz=pytz.timezone("UTC")).timestamp())
-        ratio_of_flight_completed = (now - start_time) / (end_time - start_time)
+        if (end_time - start_time) == 0:
+            ratio_of_flight_completed = 0.5
+        else:
+            ratio_of_flight_completed = (now - start_time) / (end_time - start_time)
+        
         return self._timestamp_to_local_datetime(start_time), ratio_of_flight_completed, self._timestamp_to_local_datetime(end_time)
     
     def _timestamp_to_local_datetime(self, ts):
