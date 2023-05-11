@@ -179,10 +179,14 @@ class Overhead:
                             "plane_registration": plane_registration,
                             "origin": origin,
                             "destination": destination,
+                            "scheduled_arrival" : scheduled_arrival,
+                            "estimated_arrival" : est_arrival,
+                            "scheduled_departure" : scheduled_departure,
+                            "real_departure" : real_departure,
                             "vertical_speed": flight.vertical_speed,
                             "altitude": flight.altitude,
                             "callsign": callsign,
-                            # "time": details["time"],
+
                         }
                     )
                     break
