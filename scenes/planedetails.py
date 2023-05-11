@@ -73,7 +73,7 @@ class PlaneDetailsScene(object):
         graphics.DrawText(
             self.canvas,
             PLANE_FONT,
-            (self.draw_position + model_width + separator_width),
+            (self.draw_position + model_width + separator_width) - 1,
             PLANE_DISTANCE_FROM_TOP,
             plane_registration_colour,
             plane_registration,
