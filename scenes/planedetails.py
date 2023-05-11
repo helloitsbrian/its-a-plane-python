@@ -58,7 +58,7 @@ class PlaneDetailsScene(object):
         separator_width = graphics.DrawText(
             self.canvas,
             PLANE_FONT,
-            (self.draw_position + model_width),
+            (self.draw_position + model_width) -1,
             PLANE_DISTANCE_FROM_TOP,
             PLANE_MODEL_COLOUR,
             SEPARATOR_TEXT,            
