@@ -212,7 +212,7 @@ class FlightDetailsScene(object):
 
         # Determine the start time, if there is "None" start time, assign None
         if start_time is not None:
-            start_time = self.timestamp_to_datetime(start_time + departure_time_offset - LOCAL_TZ_OFFSET)
+            start_time = self.timestamp_to_datetime(start_time + int(departure_time_offset) - int(LOCAL_TZ_OFFSET))
         elif scheduled_departure_time is not None:
             start_time = scheduled_departure_time
         else:
@@ -223,17 +223,17 @@ class FlightDetailsScene(object):
             journey_time = scheduled_arrival_time - scheduled_departure_time
 
         if scheduled_departure_time is not None:
-            scheduled_departure_time = self.timestamp_to_datetime(scheduled_departure_time + departure_time_offset - LOCAL_TZ_OFFSET)
+            scheduled_departure_time = self.timestamp_to_datetime(scheduled_departure_time + int(departure_time_offset) - int(LOCAL_TZ_OFFSET))
         else:
             scheduled_departure_time = None
 
         if scheduled_arrival_time is not None:
-            scheduled_arrival_time = self.timestamp_to_datetime(scheduled_arrival_time + arrival_time_offset - LOCAL_TZ_OFFSET)
+            scheduled_arrival_time = self.timestamp_to_datetime(scheduled_arrival_time + int(arrival_time_offset) - int(LOCAL_TZ_OFFSET))
         else:
             scheduled_arrival_time = None
 
         if end_time is not None:
-            end_time = self.timestamp_to_datetime(end_time + arrival_time_offset - LOCAL_TZ_OFFSET)
+            end_time = self.timestamp_to_datetime(end_time + int(arrival_time_offset) - int(LOCAL_TZ_OFFSET))
         elif scheduled_arrival_time is not None:
             end_time = scheduled_arrival_time
         else:
