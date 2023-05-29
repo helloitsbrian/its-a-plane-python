@@ -204,7 +204,7 @@ class FlightDetailsScene(object):
         scheduled_departure_time = self._data[self._data_index]["scheduled_departure"]
         scheduled_arrival_time = self._data[self._data_index]["scheduled_arrival"]
         end_time = self._data[self._data_index]["estimated_arrival"]
-        journey_time == 0
+        journey_time = 0
 
         now = int(datetime.datetime.now(tz=pytz.timezone("UTC")).timestamp())
 
