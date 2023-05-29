@@ -181,18 +181,18 @@ class FlightDetailsScene(object):
 
         graphics.DrawLine(
             self.canvas,
-            PROGRESS_BAR_INDEX[0],
+            PROGRESS_BAR_INDEX[0] - 2,
             PROGRESS_BAR_INDEX[1],
-            PROGRESS_BAR_INDEX[0] + 19,
+            PROGRESS_BAR_INDEX[0] + 21,
             PROGRESS_BAR_INDEX[1],
             colours.WHITE,
         )
 
         graphics.DrawLine(
             self.canvas,
-            PROGRESS_BAR_INDEX[0],
+            PROGRESS_BAR_INDEX[0] - 2,
             PROGRESS_BAR_INDEX[1],
-            PROGRESS_BAR_INDEX[0] + min([18, int(19 * ratio_completed)]),
+            PROGRESS_BAR_INDEX[0] + min([20, int(21 * ratio_completed)]),
             PROGRESS_BAR_INDEX[1],
             progress_bar_colour,
         )
