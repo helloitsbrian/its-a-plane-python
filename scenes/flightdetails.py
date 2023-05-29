@@ -212,7 +212,7 @@ class FlightDetailsScene(object):
         if start_time is not None:
             start_time = self._timestamp_to_local_datetime(start_time)
         elif scheduled_departure_time is not None:
-            start_time = scheduled_departure_time
+            start_time = self._timestamp_to_local_datetime(scheduled_departure_time)
         else:
             start_time = None
 
@@ -233,7 +233,7 @@ class FlightDetailsScene(object):
         if end_time is not None:
             end_time = self._timestamp_to_local_datetime(end_time)
         elif scheduled_arrival_time is not None:
-            end_time = scheduled_arrival_time
+            end_time = self._timestamp_to_local_datetime(scheduled_arrival_time)
         else:
             end_time = None
 
