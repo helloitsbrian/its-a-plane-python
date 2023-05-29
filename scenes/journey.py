@@ -54,7 +54,7 @@ class JourneyScene(object):
             JOURNEY_POSITION[1],
             JOURNEY_POSITION[0] + JOURNEY_WIDTH - 1,
             JOURNEY_POSITION[1] + JOURNEY_HEIGHT - 1,
-            colours.WHITE,
+            colours.BLACK,
         )
 
         # Draw origin
