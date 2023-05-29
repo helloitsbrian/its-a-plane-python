@@ -134,6 +134,8 @@ class FlightDetailsScene(object):
         real_departure_time = self._data[self._data_index]["real_departure"]
         scheduled_arrival_time = self._data[self._data_index]["scheduled_arrival"]
         estimated_arrival_time = self._data[self._data_index]["estimated_arrival"]
+        departure_time_offset = self._data[self._data_index]["departure_timezone_offset"]
+        arrival_time_offset = self._data[self._data_index]["arrival_timezone_offset"]
 
         if real_departure_time and real_departure_time > (scheduled_departure_time + DELAY_TIME_WINDOW_SECONDS):
             departure_time_colour = DELAYED_COLOUR
@@ -204,15 +206,13 @@ class FlightDetailsScene(object):
         scheduled_departure_time = self._data[self._data_index]["scheduled_departure"]
         scheduled_arrival_time = self._data[self._data_index]["scheduled_arrival"]
         end_time = self._data[self._data_index]["estimated_arrival"]
-        departure_time_offset = self._data[self._data_index]["departure_timezone_offset"]
-        arrival_time_offset = self._data[self._data_index]["arrival_timezone_offset"]
         journey_time = 0
 
         now = datetime.datetime.now(tz=pytz.timezone("UTC"))
 
         # Determine the start time, if there is "None" start time, assign None
         if start_time is not None:
-            start_time = self.timestamp_to_datetime(start_time + int(departure_time_offset) - int(LOCAL_TZ_OFFSET))
+            start_time = self._timestamp_to_local_datetime(start_time)
         elif scheduled_departure_time is not None:
             start_time = scheduled_departure_time
         else:
@@ -223,17 +223,17 @@ class FlightDetailsScene(object):
             journey_time = scheduled_arrival_time - scheduled_departure_time
 
         if scheduled_departure_time is not None:
-            scheduled_departure_time = self.timestamp_to_datetime(scheduled_departure_time + int(departure_time_offset) - int(LOCAL_TZ_OFFSET))
+            scheduled_departure_time = self._timestamp_to_local_datetime(scheduled_departure_time)
         else:
             scheduled_departure_time = None
 
         if scheduled_arrival_time is not None:
-            scheduled_arrival_time = self.timestamp_to_datetime(scheduled_arrival_time + int(arrival_time_offset) - int(LOCAL_TZ_OFFSET))
+            scheduled_arrival_time = self._timestamp_to_local_datetime(scheduled_arrival_time)
         else:
             scheduled_arrival_time = None
 
         if end_time is not None:
-            end_time = self.timestamp_to_datetime(end_time + int(arrival_time_offset) - int(LOCAL_TZ_OFFSET))
+            end_time = self._timestamp_to_local_datetime(end_time)
         elif scheduled_arrival_time is not None:
             end_time = scheduled_arrival_time
         else:
@@ -248,5 +248,5 @@ class FlightDetailsScene(object):
         
         return start_time, ratio_of_flight_completed, end_time
     
-    def timestamp_to_datetime(self, ts):
-        return datetime.datetime.utcfromtimestamp(ts).replace(tzinfo = pytz.utc)
+    def _timestamp_to_local_datetime(self, ts):
+        return datetime.datetime.utcfromtimestamp(ts).replace(tzinfo = pytz.utc).astimezone(LOCAL_TZ)
