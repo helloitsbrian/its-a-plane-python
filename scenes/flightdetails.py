@@ -200,32 +200,49 @@ class FlightDetailsScene(object):
     def _calculate_flight_duration_data(self):
         # Get the flight time details
 
-        scheduled_departure_time = self._data[self._data_index]["scheduled_departure"]
         start_time = self._data[self._data_index]["real_departure"]
+        scheduled_departure_time = self._data[self._data_index]["scheduled_departure"]
         scheduled_arrival_time = self._data[self._data_index]["scheduled_arrival"]
-        estimated_arrival_time = self._data[self._data_index]["estimated_arrival"]
-
-        end_time = int(estimated_arrival_time) if estimated_arrival_time is not None else None
-        if end_time is None:
-            end_time = start_time + scheduled_arrival_time - scheduled_departure_time
-
-        print(f"start_time: {start_time}, type: {type(start_time)}")
-        print(f"end_time: {end_time}, type: {type(end_time)}")
-        print(f"scheduled_departure_time: {scheduled_departure_time}, type: {type(scheduled_departure_time)}")
-        print(f"scheduled_arrival_time: {scheduled_arrival_time}, type: {type(scheduled_arrival_time)}")
-
-        # If there is no real departure time documented, get the estimated/scheduled departure time
-        if not start_time:
-            start_time = scheduled_departure_time
+        end_time = self._data[self._data_index]["estimated_arrival"]
+        journey_time == 0
 
         now = int(datetime.datetime.now(tz=pytz.timezone("UTC")).timestamp())
 
-        if (end_time - start_time) == 0:
+        # determine the start time, if there is "None" start time, assign a string to return
+        if start_time is not None:
+            start_time = self._timestamp_to_local_datetime(start_time)
+        elif scheduled_arrival_time is not None:
+            start_time = scheduled_arrival_time
+        else:
+            start_time = " ? "
+        
+        # build the calculation for journey time, if variables are available
+        if scheduled_departure_time is not None and scheduled_arrival_time is not None:
+            journey_time = scheduled_arrival_time - scheduled_departure_time
+        
+        if scheduled_departure_time is not None:
+            scheduled_departure_time = self._timestamp_to_local_datetime(scheduled_departure_time)
+        else:
+            scheduled_departure_time = " ? "
+
+        if scheduled_arrival_time is not None:
+            scheduled_arrival_time = self._timestamp_to_local_datetime(scheduled_arrival_time)
+        else:
+            scheduled_arrival_time = " ? "
+
+        if end_time is not None:
+            end_time = self._timestamp_to_local_datetime(end_time)
+        else:
+            end_time = " ? "
+
+        if end_time is None:
+            ratio_of_flight_completed = DEFAULT_BAR_PROGRESS
+        elif abs(end_time - start_time) == 0:
             ratio_of_flight_completed = DEFAULT_BAR_PROGRESS
         else:
             ratio_of_flight_completed = (now - start_time) / (end_time - start_time)
-        
-        return self._timestamp_to_local_datetime(start_time), ratio_of_flight_completed, self._timestamp_to_local_datetime(end_time)
+     
+        return start_time, ratio_of_flight_completed, end_time
     
     def _timestamp_to_local_datetime(self, ts):
         return datetime.datetime.utcfromtimestamp(ts).replace(tzinfo = pytz.utc).astimezone(LOCAL_TZ)
