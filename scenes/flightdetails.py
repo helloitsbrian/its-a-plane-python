@@ -157,7 +157,7 @@ class FlightDetailsScene(object):
                 DEPARTURE_TIME_INDEX[0],
                 DEPARTURE_TIME_INDEX[1],              
                 departure_time_colour,
-                "N/A"
+                " N/A "
             )
 
         if isinstance(end_dt, datetime.datetime):
@@ -176,7 +176,7 @@ class FlightDetailsScene(object):
                 ARRIVAL_TIME_INDEX[0],
                 ARRIVAL_TIME_INDEX[1],            
                 arrival_time_colour,
-                "N/A"
+                " N/A "
             )
 
         graphics.DrawLine(
@@ -210,8 +210,8 @@ class FlightDetailsScene(object):
         # Determine the start time, if there is "None" start time, assign None
         if start_time is not None:
             start_time = self._timestamp_to_local_datetime(start_time)
-        elif scheduled_arrival_time is not None:
-            start_time = scheduled_arrival_time
+        elif scheduled_departure_time is not None:
+            start_time = scheduled_departure_time
         else:
             start_time = None
 
@@ -231,6 +231,8 @@ class FlightDetailsScene(object):
 
         if end_time is not None:
             end_time = self._timestamp_to_local_datetime(end_time)
+        elif scheduled_arrival_time is not None:
+            end_time = scheduled_arrival_time
         else:
             end_time = None
 
@@ -242,8 +244,6 @@ class FlightDetailsScene(object):
             ratio_of_flight_completed = (now - start_time).total_seconds() / (end_time - start_time).total_seconds()
 
         return start_time, ratio_of_flight_completed, end_time
-
-
     
     def _timestamp_to_local_datetime(self, ts):
         return datetime.datetime.utcfromtimestamp(ts).replace(tzinfo = pytz.utc).astimezone(LOCAL_TZ)
