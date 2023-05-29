@@ -212,7 +212,7 @@ class FlightDetailsScene(object):
 
         # Determine the start time, if there is "None" start time, assign None
         if start_time is not None:
-            start_time = self._timestamp_to_local_datetime(start_time)
+            start_time = self.timestamp_to_datetime(start_time + departure_time_offset - LOCAL_TZ_OFFSET)
         elif scheduled_departure_time is not None:
             start_time = scheduled_departure_time
         else:
@@ -223,17 +223,17 @@ class FlightDetailsScene(object):
             journey_time = scheduled_arrival_time - scheduled_departure_time
 
         if scheduled_departure_time is not None:
-            scheduled_departure_time = self._timestamp_to_local_datetime(scheduled_departure_time)
+            scheduled_departure_time = self.timestamp_to_datetime(scheduled_departure_time + departure_time_offset - LOCAL_TZ_OFFSET)
         else:
             scheduled_departure_time = None
 
         if scheduled_arrival_time is not None:
-            scheduled_arrival_time = self._timestamp_to_local_datetime(scheduled_arrival_time)
+            scheduled_arrival_time = self.timestamp_to_datetime(scheduled_arrival_time + arrival_time_offset - LOCAL_TZ_OFFSET)
         else:
             scheduled_arrival_time = None
 
         if end_time is not None:
-            end_time = self._timestamp_to_local_datetime(end_time)
+            end_time = self.timestamp_to_datetime(end_time + arrival_time_offset - LOCAL_TZ_OFFSET)
         elif scheduled_arrival_time is not None:
             end_time = scheduled_arrival_time
         else:
@@ -245,18 +245,8 @@ class FlightDetailsScene(object):
             ratio_of_flight_completed = DEFAULT_BAR_PROGRESS
         else:
             ratio_of_flight_completed = (now - start_time).total_seconds() / (end_time - start_time).total_seconds()
-
-        if isinstance(start_time, datetime.datetime):
-            start_time = start_time + datetime.timedelta(seconds=departure_time_offset - LOCAL_TZ_OFFSET)
-        else:
-            start_time = None
-
-        if isinstance(end_time, datetime.datetime):
-            end_time = end_time + datetime.timedelta(seconds=arrival_time_offset - LOCAL_TZ_OFFSET)
-        else:
-            end_time = None
         
         return start_time, ratio_of_flight_completed, end_time
     
-    def _timestamp_to_local_datetime(self, ts):
-        return datetime.datetime.utcfromtimestamp(ts).replace(tzinfo = pytz.utc).astimezone(LOCAL_TZ)
+    def timestamp_to_datetime(self, ts):
+        return datetime.datetime.utcfromtimestamp(ts).replace(tzinfo = pytz.utc)
