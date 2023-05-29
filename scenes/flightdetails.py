@@ -35,6 +35,7 @@ DELAYED_COLOUR = colours.RED_LIGHT
 DELAY_TIME_WINDOW_SECONDS = 1800
 
 LOCAL_TZ = pytz.timezone("America/Denver")
+LOCAL_TZ_OFFSET = -21600
 
 
 class FlightDetailsScene(object):
@@ -203,6 +204,8 @@ class FlightDetailsScene(object):
         scheduled_departure_time = self._data[self._data_index]["scheduled_departure"]
         scheduled_arrival_time = self._data[self._data_index]["scheduled_arrival"]
         end_time = self._data[self._data_index]["estimated_arrival"]
+        departure_time_offset = self._data[self._data_index]["departure_timezone_offset"]
+        arrival_time_offset = self._data[self._data_index]["arrival_timezone_offset"]
         journey_time = 0
 
         now = datetime.datetime.now(tz=pytz.timezone("UTC"))
@@ -243,6 +246,16 @@ class FlightDetailsScene(object):
         else:
             ratio_of_flight_completed = (now - start_time).total_seconds() / (end_time - start_time).total_seconds()
 
+        if isinstance(start_time, datetime.datetime):
+            start_time = start_time + datetime.timedelta(seconds=departure_time_offset - LOCAL_TZ_OFFSET)
+        else:
+            start_time = None
+
+        if isinstance(end_time, datetime.datetime):
+            end_time = end_time + datetime.timedelta(seconds=arrival_time_offset - LOCAL_TZ_OFFSET)
+        else:
+            end_time = None
+        
         return start_time, ratio_of_flight_completed, end_time
     
     def _timestamp_to_local_datetime(self, ts):
