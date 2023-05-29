@@ -109,7 +109,6 @@ class Overhead:
                 # Grab and store details
                 try:
                     details = self._api.get_flight_details(flight.id)
-                    pprint.pprint(details)
 
                     # Get plane model
                     try:
