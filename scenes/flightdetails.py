@@ -207,13 +207,13 @@ class FlightDetailsScene(object):
 
         now = datetime.datetime.now(tz=pytz.timezone("UTC"))
 
-        # Determine the start time, if there is "None" start time, assign a string to return
+        # Determine the start time, if there is "None" start time, assign None
         if start_time is not None:
             start_time = self._timestamp_to_local_datetime(start_time)
         elif scheduled_arrival_time is not None:
             start_time = scheduled_arrival_time
         else:
-            start_time = " ? "
+            start_time = None
 
         # Build the calculation for journey time, if variables are available
         if scheduled_departure_time is not None and scheduled_arrival_time is not None:
@@ -222,17 +222,17 @@ class FlightDetailsScene(object):
         if scheduled_departure_time is not None:
             scheduled_departure_time = self._timestamp_to_local_datetime(scheduled_departure_time)
         else:
-            scheduled_departure_time = " ? "
+            scheduled_departure_time = None
 
         if scheduled_arrival_time is not None:
             scheduled_arrival_time = self._timestamp_to_local_datetime(scheduled_arrival_time)
         else:
-            scheduled_arrival_time = " ? "
+            scheduled_arrival_time = None
 
         if end_time is not None:
             end_time = self._timestamp_to_local_datetime(end_time)
         else:
-            end_time = " ? "
+            end_time = None
 
         if end_time is None:
             ratio_of_flight_completed = DEFAULT_BAR_PROGRESS
@@ -241,7 +241,8 @@ class FlightDetailsScene(object):
         else:
             ratio_of_flight_completed = (now - start_time).total_seconds() / (end_time - start_time).total_seconds()
 
-        return str(start_time), ratio_of_flight_completed, str(end_time)
+        return start_time, ratio_of_flight_completed, end_time
+
 
     
     def _timestamp_to_local_datetime(self, ts):
