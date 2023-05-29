@@ -181,8 +181,6 @@ class Overhead:
                             "vertical_speed": flight.vertical_speed,
                             "altitude": flight.altitude,
                             "callsign": callsign,
-                            "departure_timezone_offset": departure_timezone_offset,
-                            "arrival_timezone_offset": arrival_timezone_offset,
                         }
                     )
                     break
