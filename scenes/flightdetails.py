@@ -198,19 +198,22 @@ class FlightDetailsScene(object):
         )
 
     def _calculate_flight_duration_data(self):
-        time_details = self._data[self._data_index]["time"]
-        start_time = time_details["real"].get("departure")
+        # Get the flight time details
+
+        scheduled_departure_time = self._data[self._data_index]["scheduled_departure"]
+        start_time = self._data[self._data_index]["real_departure"]
+        scheduled_arrival_time = self._data[self._data_index]["scheduled_arrival"]
+        end_time = self._data[self._data_index]["estimated_arrival"]
+
+        # If there is no real departure time documented, get the estimated/scheduled departure time
         if not start_time:
-            start_time = time_details["estimated"].get("departure")
-        end_time = time_details["estimated"].get("arrival")
+            start_time = scheduled_departure_time
+
+        # If there is no estimated arrival time, extrapolate from scheduled length and start_time    
         if not end_time:
-            print(f"start_time: {start_time}, type: {type(start_time)}")
-            print(f"end_time: {end_time}, type: {type(end_time)}")
-            end_time = start_time + time_details["scheduled"]["arrival"] - time_details["scheduled"]["departure"]
-    
+            end_time = start_time + scheduled_arrival_time - scheduled_departure_time
+
         now = int(datetime.datetime.now(tz=pytz.timezone("UTC")).timestamp())
-    
-        ratio_of_flight_completed = (now - start_time) / (end_time - start_time)
 
         if (end_time - start_time) == 0:
             ratio_of_flight_completed = DEFAULT_BAR_PROGRESS
