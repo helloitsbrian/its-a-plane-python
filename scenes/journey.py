@@ -25,12 +25,12 @@ JOURNEY_WIDTH = 64
 JOURNEY_SPACING = 16
 JOURNEY_FONT = fonts.large_bold
 JOURNEY_FONT_SELECTED = fonts.large_bold
-JOURNEY_COLOUR = colours.WHITE
+JOURNEY_COLOUR = colours.BLACK
 SELECTED_COLOUR = colours.YELLOW
-ARROW_COLOUR = colours.GREEN
+ARROW_COLOUR = colours.BLACK
 
 # Element Positions
-ARROW_POINT_POSITION = (34, 6)
+ARROW_POINT_POSITION = (34, 5)
 ARROW_WIDTH = 4
 ARROW_HEIGHT = 8
 
@@ -54,7 +54,7 @@ class JourneyScene(object):
             JOURNEY_POSITION[1],
             JOURNEY_POSITION[0] + JOURNEY_WIDTH - 1,
             JOURNEY_POSITION[1] + JOURNEY_HEIGHT - 1,
-            colours.BLACK,
+            colours.WHITE,
         )
 
         # Draw origin
