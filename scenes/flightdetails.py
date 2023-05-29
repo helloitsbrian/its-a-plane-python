@@ -200,10 +200,10 @@ class FlightDetailsScene(object):
     def _calculate_flight_duration_data(self):
         # Get the flight time details
 
-        scheduled_departure_time = self._data[self._data_index]["scheduled_departure"]
-        start_time = self._data[self._data_index]["real_departure"]
-        scheduled_arrival_time = self._data[self._data_index]["scheduled_arrival"]
-        end_time = self._data[self._data_index]["estimated_arrival"]
+        scheduled_departure_time = int(self._data[self._data_index]["scheduled_departure"])
+        start_time = int(self._data[self._data_index]["real_departure"])
+        scheduled_arrival_time = int(self._data[self._data_index]["scheduled_arrival"])
+        end_time = int(self._data[self._data_index]["estimated_arrival"])
         journey_time = scheduled_arrival_time - scheduled_departure_time
 
         print(f"start_time: {start_time}, type: {type(start_time)}")
