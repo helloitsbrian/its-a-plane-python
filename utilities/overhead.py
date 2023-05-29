@@ -146,18 +146,6 @@ class Overhead:
                     except (KeyError, TypeError):
                         est_arrival = ""
 
-                    # Get departure airport timezone offset
-                    try:
-                        departure_timezone_offset = details["airport"]["departure"]["timezone"]["offset"]
-                    except (KeyError, TypeError):
-                        departure_timezone_offset = ""
-
-                    # Get arrival airport timezone offset
-                    try:
-                        arrival_timezone_offset = details["airport"]["destination"]["timezone"]["offset"]
-                    except (KeyError, TyperError):
-                        arrival_timezone_offset = ""
-
                     # Tidy up what we pass along
                     plane_model = plane_model if not (plane_model.upper() in BLANK_FIELDS) else ""
                     plane_registration = plane_registration if not (plane_registration.upper() in BLANK_FIELDS) else ""

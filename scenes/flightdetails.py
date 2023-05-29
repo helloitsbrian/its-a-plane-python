@@ -134,8 +134,6 @@ class FlightDetailsScene(object):
         real_departure_time = self._data[self._data_index]["real_departure"]
         scheduled_arrival_time = self._data[self._data_index]["scheduled_arrival"]
         estimated_arrival_time = self._data[self._data_index]["estimated_arrival"]
-        departure_time_offset = self._data[self._data_index]["departure_timezone_offset"]
-        arrival_time_offset = self._data[self._data_index]["arrival_timezone_offset"]
 
         if real_departure_time and real_departure_time > (scheduled_departure_time + DELAY_TIME_WINDOW_SECONDS):
             departure_time_colour = DELAYED_COLOUR
