@@ -198,26 +198,26 @@ class FlightDetailsScene(object):
         )
 
     def _calculate_flight_duration_data(self):
-    time_details = self._data[self._data_index]["time"]
-    start_time = time_details["real"].get("departure")
-    if not start_time:
-        start_time = time_details["estimated"].get("departure")
-    end_time = time_details["estimated"].get("arrival")
-    if not end_time:
-        print(f"start_time: {start_time}, type: {type(start_time)}")
-        print(f"end_time: {end_time}, type: {type(end_time)}")
-        end_time = start_time + time_details["scheduled"]["arrival"] - time_details["scheduled"]["departure"]
+        time_details = self._data[self._data_index]["time"]
+        start_time = time_details["real"].get("departure")
+        if not start_time:
+            start_time = time_details["estimated"].get("departure")
+        end_time = time_details["estimated"].get("arrival")
+        if not end_time:
+            print(f"start_time: {start_time}, type: {type(start_time)}")
+            print(f"end_time: {end_time}, type: {type(end_time)}")
+            end_time = start_time + time_details["scheduled"]["arrival"] - time_details["scheduled"]["departure"]
     
-    now = int(datetime.datetime.now(tz=pytz.timezone("UTC")).timestamp())
+        now = int(datetime.datetime.now(tz=pytz.timezone("UTC")).timestamp())
     
-    ratio_of_flight_completed = (now - start_time) / (end_time - start_time)
+        ratio_of_flight_completed = (now - start_time) / (end_time - start_time)
 
-    if (end_time - start_time) == 0:
+        if (end_time - start_time) == 0:
             ratio_of_flight_completed = DEFAULT_BAR_PROGRESS
-    else:
+        else:
             ratio_of_flight_completed = (now - start_time) / (end_time - start_time)
         
-    return self._timestamp_to_local_datetime(start_time), ratio_of_flight_completed, self._timestamp_to_local_datetime(end_time)
+        return self._timestamp_to_local_datetime(start_time), ratio_of_flight_completed, self._timestamp_to_local_datetime(end_time)
     
     def _timestamp_to_local_datetime(self, ts):
         return datetime.datetime.utcfromtimestamp(ts).replace(tzinfo = pytz.utc).astimezone(LOCAL_TZ)
