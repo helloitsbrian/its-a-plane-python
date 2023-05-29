@@ -200,25 +200,23 @@ class FlightDetailsScene(object):
     def _calculate_flight_duration_data(self):
         # Get the flight time details
 
-        scheduled_departure_time = int(self._data[self._data_index]["scheduled_departure"])
-        start_time = int(self._data[self._data_index]["real_departure"])
-        scheduled_arrival_time = int(self._data[self._data_index]["scheduled_arrival"])
-        end_time = int(self._data[self._data_index]["estimated_arrival"])
-        journey_time = scheduled_arrival_time - scheduled_departure_time
+        scheduled_departure_time = self._data[self._data_index]["scheduled_departure"]
+        start_time = self._data[self._data_index]["real_departure"]
+        scheduled_arrival_time = self._data[self._data_index]["scheduled_arrival"]
+        estimated_arrival_time = self._data[self._data_index]["estimated_arrival"]
+
+        end_time = int(estimated_arrival_time) if estimated_arrival_time is not None else None
+        if end_time is None:
+            end_time = start_time + scheduled_arrival_time - scheduled_departure_time
 
         print(f"start_time: {start_time}, type: {type(start_time)}")
         print(f"end_time: {end_time}, type: {type(end_time)}")
         print(f"scheduled_departure_time: {scheduled_departure_time}, type: {type(scheduled_departure_time)}")
         print(f"scheduled_arrival_time: {scheduled_arrival_time}, type: {type(scheduled_arrival_time)}")
-        print(f"journey_time: {journey_time}, type: {type(journey_time)}")
 
         # If there is no real departure time documented, get the estimated/scheduled departure time
         if not start_time:
             start_time = scheduled_departure_time
-
-        # If there is no estimated arrival time, extrapolate from scheduled length and start_time    
-        if not end_time:
-            end_time = start_time + journey_time
 
         now = int(datetime.datetime.now(tz=pytz.timezone("UTC")).timestamp())
 
