@@ -204,7 +204,6 @@ class FlightDetailsScene(object):
         scheduled_departure_time = self._data[self._data_index]["scheduled_departure"]
         scheduled_arrival_time = self._data[self._data_index]["scheduled_arrival"]
         end_time = self._data[self._data_index]["estimated_arrival"]
-        journey_time = 0
 
         now = datetime.datetime.now(tz=pytz.timezone("UTC"))
 
@@ -215,10 +214,6 @@ class FlightDetailsScene(object):
             start_time = self._timestamp_to_local_datetime(scheduled_departure_time)
         else:
             start_time = None
-
-        # Build the calculation for journey time, if variables are available
-        if scheduled_departure_time is not None and scheduled_arrival_time is not None:
-            journey_time = scheduled_arrival_time - scheduled_departure_time
 
         if scheduled_departure_time is not None:
             scheduled_departure_time = self._timestamp_to_local_datetime(scheduled_departure_time)
