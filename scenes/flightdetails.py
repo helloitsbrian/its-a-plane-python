@@ -247,7 +247,10 @@ class FlightDetailsScene(object):
         return start_time, ratio_of_flight_completed, end_time
     
     def _timestamp_to_local_datetime(self, ts):
-        if isinstance(ts, datetime.datetime):
+        if isinstance(ts, int):
+            return datetime.datetime.fromtimestamp(ts, tz=LOCAL_TZ)
+        elif isinstance(ts, datetime.datetime):
             return ts.replace(tzinfo=pytz.utc).astimezone(LOCAL_TZ)
         else:
-            return datetime.datetime.fromtimestamp(ts, tz=LOCAL_TZ)
+            # Handle other cases (e.g., None)
+            return None
