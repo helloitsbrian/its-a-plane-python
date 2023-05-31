@@ -13,17 +13,17 @@ BAR_VPADDING = 1
 
 FLIGHT_NO_POSITION = (1, 24)
 FLIGHT_NO_TEXT_HEIGHT = 6  # based on font size
-FLIGHT_NO_FONT = fonts.extrasmall
+FLIGHT_NO_FONT = fonts.small
 
 FLIGHT_NUMBER_ALPHA_COLOUR = colours.BLUE
 FLIGHT_NUMBER_NUMERIC_COLOUR = colours.BLUE_LIGHT
 
 DATA_INDEX_POSITION = (49, 24)
 DATA_INDEX_TEXT_HEIGHT = 6
-DATA_INDEX_FONT = fonts.extrasmall
+DATA_INDEX_FONT = fonts.small
 
 DIVIDING_BAR_COLOUR = colours.GREEN
-DATA_INDEX_COLOUR = colours.GREY
+DATA_INDEX_COLOUR = colours.WHITE
 
 TOP_OF_PROGRESS_SECTION = 13
 BOTTOM_OF_PROGRESS_SECTION = 17
@@ -134,14 +134,6 @@ class FlightDetailsScene(object):
         real_departure_time = self._data[self._data_index]["real_departure"]
         scheduled_arrival_time = self._data[self._data_index]["scheduled_arrival"]
         estimated_arrival_time = self._data[self._data_index]["estimated_arrival"]
-
-        self.draw_square(
-            0,
-            12,
-            screen.WIDTH,
-            18,
-            colours.JOURNEY_BLUE
-        )
 
         if real_departure_time and real_departure_time > (scheduled_departure_time + DELAY_TIME_WINDOW_SECONDS):
             departure_time_colour = DELAYED_COLOUR
