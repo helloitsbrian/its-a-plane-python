@@ -22,7 +22,7 @@ except (ModuleNotFoundError, NameError, ImportError):
 JOURNEY_POSITION = (0, 0)
 JOURNEY_HEIGHT = 10
 JOURNEY_WIDTH = 64
-JOURNEY_SPACING = 22
+JOURNEY_SPACING = 21
 JOURNEY_FONT = fonts.regular_bold
 JOURNEY_FONT_SELECTED = fonts.regular_bold
 JOURNEY_COLOUR = colours.WHITE
@@ -30,7 +30,7 @@ SELECTED_COLOUR = colours.YELLOW_DARK
 ARROW_COLOUR = colours.WHITE
 
 # Element Positions
-ARROW_POINT_POSITION = (32, 6)
+ARROW_POINT_POSITION = (33, 5)
 ARROW_WIDTH = 3
 ARROW_HEIGHT = 6
 
@@ -61,7 +61,7 @@ class JourneyScene(object):
         text_length = graphics.DrawText(
             self.canvas,
             JOURNEY_FONT_SELECTED if origin == JOURNEY_CODE_SELECTED else JOURNEY_FONT,
-	        1,
+	        2,
             JOURNEY_HEIGHT,
             SELECTED_COLOUR if origin == JOURNEY_CODE_SELECTED else JOURNEY_COLOUR,
             origin if origin else JOURNEY_BLANK_FILLER,
