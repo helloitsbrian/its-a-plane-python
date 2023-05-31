@@ -2,7 +2,7 @@ from utilities.animator import Animator
 from setup import colours
 
 # Setup
-BLINKER_POSITION = (63, 0)
+BLINKER_POSITION = (63, 31)
 BLINKER_STEPS = 10
 BLINKER_COLOUR = colours.WHITE
 
