@@ -53,7 +53,7 @@ class JourneyScene(object):
             JOURNEY_POSITION[0],
             JOURNEY_POSITION[1],
             JOURNEY_POSITION[0] + JOURNEY_WIDTH,
-            JOURNEY_POSITION[1] + JOURNEY_HEIGHT + 6,
+            JOURNEY_POSITION[1] + JOURNEY_HEIGHT,
             colours.JOURNEY_BLUE,
         )
 
