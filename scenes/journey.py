@@ -54,7 +54,7 @@ class JourneyScene(object):
             JOURNEY_POSITION[1],
             JOURNEY_POSITION[0] + JOURNEY_WIDTH,
             JOURNEY_POSITION[1] + JOURNEY_HEIGHT,
-            colours.BLUE,
+            colours.JOURNEY_BLUE,
         )
 
         # Draw origin
@@ -91,7 +91,7 @@ class JourneyScene(object):
             ARROW_POINT_POSITION[1] - (ARROW_HEIGHT // 2),
             ARROW_POINT_POSITION[0],
             ARROW_POINT_POSITION[1] + (ARROW_HEIGHT // 2),
-            colours.BLUE,
+            colours.JOURNEY_BLUE,
         )
 
         # Starting positions for filled in arrow
