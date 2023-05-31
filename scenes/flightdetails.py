@@ -135,6 +135,14 @@ class FlightDetailsScene(object):
         scheduled_arrival_time = self._data[self._data_index]["scheduled_arrival"]
         estimated_arrival_time = self._data[self._data_index]["estimated_arrival"]
 
+        self.draw_square(
+            0,
+            12,
+            screen.WIDTH,
+            18,
+            colours.JOURNEY_BLUE
+        )
+
         if real_departure_time and real_departure_time > (scheduled_departure_time + DELAY_TIME_WINDOW_SECONDS):
             departure_time_colour = DELAYED_COLOUR
 
@@ -142,7 +150,7 @@ class FlightDetailsScene(object):
             arrival_time_colour = DELAYED_COLOUR
             progress_bar_colour = DELAYED_COLOUR
 
-        if isinstance(start_dt, datetime.datetime):      
+        if isinstance(start_dt, datetime.datetime):   
             graphics.DrawText(
                 self.canvas,
                 fonts.extrasmall,
