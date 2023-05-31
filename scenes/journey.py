@@ -27,7 +27,7 @@ JOURNEY_FONT = fonts.large_bold
 JOURNEY_FONT_SELECTED = fonts.large_bold
 JOURNEY_COLOUR = colours.WHITE
 SELECTED_COLOUR = colours.YELLOW
-ARROW_COLOUR = colours.GREEN
+ARROW_COLOUR = colours.WHITE
 
 # Element Positions
 ARROW_POINT_POSITION = (34, 5)
@@ -52,9 +52,9 @@ class JourneyScene(object):
         self.draw_square(
             JOURNEY_POSITION[0],
             JOURNEY_POSITION[1],
-            JOURNEY_POSITION[0] + JOURNEY_WIDTH - 1,
-            JOURNEY_POSITION[1] + JOURNEY_HEIGHT - 1,
-            colours.BLACK,
+            JOURNEY_POSITION[0] + JOURNEY_WIDTH,
+            JOURNEY_POSITION[1] + JOURNEY_HEIGHT,
+            colours.BLUE,
         )
 
         # Draw origin
@@ -91,7 +91,7 @@ class JourneyScene(object):
             ARROW_POINT_POSITION[1] - (ARROW_HEIGHT // 2),
             ARROW_POINT_POSITION[0],
             ARROW_POINT_POSITION[1] + (ARROW_HEIGHT // 2),
-            colours.BLACK,
+            colours.BLUE,
         )
 
         # Starting positions for filled in arrow
