@@ -110,14 +110,45 @@ class Overhead:
                 try:
                     details = self._api.get_flight_details(flight.id)
 
-                    # Get plane type
+                    # Get plane model
                     try:
-                        plane = details["aircraft"]["model"]["code"] + "·" + details["aircraft"]["registration"]
+                        plane_model = details["aircraft"]["model"]["code"]
                     except (KeyError, TypeError):
-                        plane = ""
+                        plane_model = ""
+
+                    # Get plane registration
+                    try:
+                        plane_registration = details["aircraft"]["registration"]
+                    except (KeyError, TypeError):
+                        plane_registration = ""
+
+                    # Get scheduled departure time
+                    try:
+                        scheduled_departure = details["time"]["scheduled"]["departure"]
+                    except (KeyError, TypeError):
+                        scheduled_departure = ""
+
+                    # Get actual departure time
+                    try:
+                        real_departure = details["time"]["real"]["departure"]
+                    except (KeyError, TypeError):
+                        real_departure = ""
+
+                    # Get scheduled arrival time
+                    try:
+                        scheduled_arrival = details["time"]["scheduled"]["arrival"]
+                    except (KeyError, TypeError):
+                        scheduled_arrival = ""
+
+                    # Get estimated arrival time
+                    try:
+                        est_arrival = details["time"]["estimated"]["arrival"]
+                    except (KeyError, TypeError):
+                        est_arrival = ""
 
                     # Tidy up what we pass along
-                    plane = plane if not (plane.upper() in BLANK_FIELDS) else ""
+                    plane_model = plane_model if not (plane_model.upper() in BLANK_FIELDS) else ""
+                    plane_registration = plane_registration if not (plane_registration.upper() in BLANK_FIELDS) else ""
 
                     origin = (
                         flight.origin_airport_iata
@@ -139,13 +170,17 @@ class Overhead:
 
                     data.append(
                         {
-                            "plane": plane,
+                            "plane_model": plane_model,
+                            "plane_registration": plane_registration,
                             "origin": origin,
                             "destination": destination,
+                            "scheduled_arrival" : scheduled_arrival,
+                            "estimated_arrival" : est_arrival,
+                            "scheduled_departure" : scheduled_departure,
+                            "real_departure" : real_departure,
                             "vertical_speed": flight.vertical_speed,
                             "altitude": flight.altitude,
                             "callsign": callsign,
-                            "time": details["time"],
                         }
                     )
                     break

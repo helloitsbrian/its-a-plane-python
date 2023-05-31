@@ -3,13 +3,21 @@ from rgbmatrix import graphics
 from utilities.animator import Animator
 from setup import colours, fonts, screen
 
+try:
+    from config import PLANES_IVE_BEEN_ON
+
+except (ModuleNotFoundError, NameError, ImportError):
+    # If there's no config data
+    PLANES_IVE_BEEN_ON = []  
+
 # Setup
-PLANE_DETAILS_COLOUR = colours.WHITE
+PLANE_MODEL_COLOUR = colours.WHITE
 PLANE_DISTANCE_FROM_TOP = 31
 PLANE_TEXT_HEIGHT = 6
 PLANE_FONT = fonts.small
 PLANE_DISPLAY_START_POSITION = 5
 PLANE_CLOCK_SPEED = 100
+SEPARATOR_TEXT = "·"
 
 class PlaneDetailsScene(object):
     def __init__(self):
@@ -25,7 +33,8 @@ class PlaneDetailsScene(object):
         if len(self._data) == 0:
             return
 
-        plane = f'{self._data[self._data_index]["plane"]}'
+        plane_model = f'{self._data[self._data_index]["plane_model"]}'
+        plane_registration = f'{self._data[self._data_index]["plane_registration"]}'
 
         # Draw background
         self.draw_square(
@@ -36,14 +45,38 @@ class PlaneDetailsScene(object):
             colours.BLACK,
         )
 
-        # Draw text
-        text_length = graphics.DrawText(
+        # Draw ICAO plane model text
+        model_width = graphics.DrawText(
             self.canvas,
             PLANE_FONT,
             self.draw_position,
             PLANE_DISTANCE_FROM_TOP,
-            PLANE_DETAILS_COLOUR,
-            plane,
+            PLANE_MODEL_COLOUR,
+            plane_model,
+        )
+
+        separator_width = graphics.DrawText(
+            self.canvas,
+            PLANE_FONT,
+            (self.draw_position + model_width) -1,
+            PLANE_DISTANCE_FROM_TOP,
+            PLANE_MODEL_COLOUR,
+            SEPARATOR_TEXT,            
+        )
+
+        # Draw plane tail number text
+        if plane_registration in PLANES_IVE_BEEN_ON:
+            plane_registration_colour = colours.GREEN_LIGHT
+        else:
+            plane_registration_colour = colours.WHITE
+
+        graphics.DrawText(
+            self.canvas,
+            PLANE_FONT,
+            (self.draw_position + model_width + separator_width) - 1,
+            PLANE_DISTANCE_FROM_TOP,
+            plane_registration_colour,
+            plane_registration,
         )
 
         # Handle scrolling 

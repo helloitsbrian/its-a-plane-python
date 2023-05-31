@@ -28,11 +28,14 @@ DATA_INDEX_COLOUR = colours.GREY
 TOP_OF_PROGRESS_SECTION = FLIGHT_DETAILS_BAR_STARTING_POSITION[1] + (FLIGHT_NO_TEXT_HEIGHT // 2) + BAR_VPADDING
 BOTTOM_OF_PROGRESS_SECTION = FLIGHT_DETAILS_BAR_STARTING_POSITION[1] + (FLIGHT_NO_TEXT_HEIGHT // 2) + BAR_VPADDING + FLIGHT_PROGRESS_BAR_HEIGHT
 DEPARTURE_TIME_INDEX = (1, BOTTOM_OF_PROGRESS_SECTION)
-ARRIVAL_TIME_INDEX = (screen.WIDTH - 20, BOTTOM_OF_PROGRESS_SECTION)
+ARRIVAL_TIME_INDEX = (screen.WIDTH - 18, BOTTOM_OF_PROGRESS_SECTION)
 PROGRESS_BAR_INDEX = (22,(TOP_OF_PROGRESS_SECTION + BOTTOM_OF_PROGRESS_SECTION) // 2)
-FLIGHT_TIME_UNKNOWN = " ? "
+DEFAULT_BAR_PROGRESS = 0.5
+DELAYED_COLOUR = colours.RED_LIGHT
+DELAY_TIME_WINDOW_SECONDS = 1800
 
 LOCAL_TZ = pytz.timezone("America/Denver")
+LOCAL_TZ_OFFSET = -21600
 
 
 class FlightDetailsScene(object):
@@ -123,55 +126,126 @@ class FlightDetailsScene(object):
         
     def _draw_progress_data(self):
         start_dt, ratio_completed, end_dt = self._calculate_flight_duration_data()
+        departure_time_colour = DATA_INDEX_COLOUR
+        arrival_time_colour = DATA_INDEX_COLOUR
+        progress_bar_colour = DIVIDING_BAR_COLOUR
 
-        if start_dt and end_dt:      
+        scheduled_departure_time = self._data[self._data_index]["scheduled_departure"]
+        real_departure_time = self._data[self._data_index]["real_departure"]
+        scheduled_arrival_time = self._data[self._data_index]["scheduled_arrival"]
+        estimated_arrival_time = self._data[self._data_index]["estimated_arrival"]
+
+        if real_departure_time and real_departure_time > (scheduled_departure_time + DELAY_TIME_WINDOW_SECONDS):
+            departure_time_colour = DELAYED_COLOUR
+
+        if estimated_arrival_time and estimated_arrival_time > (scheduled_arrival_time + DELAY_TIME_WINDOW_SECONDS):
+            arrival_time_colour = DELAYED_COLOUR
+            progress_bar_colour = DELAYED_COLOUR
+
+        if isinstance(start_dt, datetime.datetime):      
             graphics.DrawText(
                 self.canvas,
                 fonts.extrasmall,
                 DEPARTURE_TIME_INDEX[0],
-                DEPARTURE_TIME_INDEX[1],
-                DATA_INDEX_COLOUR,
+                DEPARTURE_TIME_INDEX[1],              
+                departure_time_colour,
                 start_dt.strftime("%H:%M")
             )
+        else:
+            graphics.DrawText(
+                self.canvas,
+                fonts.extrasmall,
+                DEPARTURE_TIME_INDEX[0],
+                DEPARTURE_TIME_INDEX[1],              
+                departure_time_colour,
+                " N/A "
+            )
 
+        if isinstance(end_dt, datetime.datetime):
             graphics.DrawText(
                 self.canvas,
                 fonts.extrasmall,
                 ARRIVAL_TIME_INDEX[0],
-                ARRIVAL_TIME_INDEX[1],
-                DATA_INDEX_COLOUR,
+                ARRIVAL_TIME_INDEX[1],            
+                arrival_time_colour,
                 end_dt.strftime("%H:%M")
             )
+        else:
+            graphics.DrawText(
+                self.canvas,
+                fonts.extrasmall,
+                ARRIVAL_TIME_INDEX[0],
+                ARRIVAL_TIME_INDEX[1],            
+                arrival_time_colour,
+                " N/A "
+            )
 
-            graphics.DrawLine(
-                self.canvas,
-                PROGRESS_BAR_INDEX[0],
-                PROGRESS_BAR_INDEX[1],
-                PROGRESS_BAR_INDEX[0] + 19,
-                PROGRESS_BAR_INDEX[1],
-                colours.WHITE,
-            )
-            
-            graphics.DrawLine(
-                self.canvas,
-                PROGRESS_BAR_INDEX[0],
-                PROGRESS_BAR_INDEX[1],
-                PROGRESS_BAR_INDEX[0] + min([18, int(19 * ratio_completed)]),
-                PROGRESS_BAR_INDEX[1],
-                colours.GREEN,
-            )
+        graphics.DrawLine(
+            self.canvas,
+            PROGRESS_BAR_INDEX[0] - 2,
+            PROGRESS_BAR_INDEX[1],
+            PROGRESS_BAR_INDEX[0] + 21,
+            PROGRESS_BAR_INDEX[1],
+            colours.WHITE,
+        )
+
+        graphics.DrawLine(
+            self.canvas,
+            PROGRESS_BAR_INDEX[0] - 2,
+            PROGRESS_BAR_INDEX[1],
+            PROGRESS_BAR_INDEX[0] + min([20, int(21 * ratio_completed)]),
+            PROGRESS_BAR_INDEX[1],
+            progress_bar_colour,
+        )
 
     def _calculate_flight_duration_data(self):
-        time_details = self._data[self._data_index]["time"]
-        start_time = time_details["real"].get("departure")
-        if not start_time:
-            start_time = time_details["estimated"].get("departure")
-        end_time = time_details["estimated"].get("arrival")
-        if not end_time:
-            end_time = start_time + time_details["scheduled"]["arrival"] - time_details["scheduled"]["departure"]
-        now = int(datetime.datetime.now(tz=pytz.timezone("UTC")).timestamp())
-        ratio_of_flight_completed = (now - start_time) / (end_time - start_time)
-        return self._timestamp_to_local_datetime(start_time), ratio_of_flight_completed, self._timestamp_to_local_datetime(end_time)
+        # Get the flight time details
+        start_time = self._data[self._data_index]["real_departure"]
+        scheduled_departure_time = self._data[self._data_index]["scheduled_departure"]
+        scheduled_arrival_time = self._data[self._data_index]["scheduled_arrival"]
+        end_time = self._data[self._data_index]["estimated_arrival"]
+
+        now = datetime.datetime.now(tz=pytz.timezone("UTC"))
+
+        # Determine the start time, if there is "None" start time, assign None
+        if start_time is not None:
+            start_time = self._timestamp_to_local_datetime(start_time)
+        elif scheduled_departure_time is not None:
+            start_time = self._timestamp_to_local_datetime(scheduled_departure_time)
+        else:
+            start_time = None
+
+        if scheduled_departure_time is not None:
+            scheduled_departure_time = self._timestamp_to_local_datetime(scheduled_departure_time)
+        else:
+            scheduled_departure_time = None
+
+        if scheduled_arrival_time is not None:
+            scheduled_arrival_time = self._timestamp_to_local_datetime(scheduled_arrival_time)
+        else:
+            scheduled_arrival_time = None
+
+        if end_time is not None:
+            end_time = self._timestamp_to_local_datetime(end_time)
+        elif scheduled_arrival_time is not None:
+            end_time = self._timestamp_to_local_datetime(scheduled_arrival_time)
+        else:
+            end_time = None
+
+        if end_time is None:
+            ratio_of_flight_completed = DEFAULT_BAR_PROGRESS
+        elif abs((end_time - start_time).total_seconds()) == 0:
+            ratio_of_flight_completed = DEFAULT_BAR_PROGRESS
+        else:
+            ratio_of_flight_completed = (now - start_time).total_seconds() / (end_time - start_time).total_seconds()
+        
+        return start_time, ratio_of_flight_completed, end_time
     
     def _timestamp_to_local_datetime(self, ts):
-        return datetime.datetime.utcfromtimestamp(ts).replace(tzinfo = pytz.utc).astimezone(LOCAL_TZ)
+        if isinstance(ts, int):
+            return datetime.datetime.fromtimestamp(ts, tz=LOCAL_TZ)
+        elif isinstance(ts, datetime.datetime):
+            return ts.replace(tzinfo=pytz.utc).astimezone(LOCAL_TZ)
+        else:
+            # Handle other cases (e.g., None)
+            return None
