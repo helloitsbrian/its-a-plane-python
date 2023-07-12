@@ -11,25 +11,25 @@ FLIGHT_PROGRESS_BAR_HEIGHT = 5
 BAR_HPADDING = 2
 BAR_VPADDING = 1
 
-FLIGHT_NO_POSITION = (1, 18)
+FLIGHT_NO_POSITION = (1, 24)
 FLIGHT_NO_TEXT_HEIGHT = 6  # based on font size
 FLIGHT_NO_FONT = fonts.small
 
 FLIGHT_NUMBER_ALPHA_COLOUR = colours.BLUE
 FLIGHT_NUMBER_NUMERIC_COLOUR = colours.BLUE_LIGHT
 
-DATA_INDEX_POSITION = (49, 18)
+DATA_INDEX_POSITION = (49, 24)
 DATA_INDEX_TEXT_HEIGHT = 6
 DATA_INDEX_FONT = fonts.small
 
 DIVIDING_BAR_COLOUR = colours.GREEN
-DATA_INDEX_COLOUR = colours.GREY
+DATA_INDEX_COLOUR = colours.WHITE
 
-TOP_OF_PROGRESS_SECTION = FLIGHT_DETAILS_BAR_STARTING_POSITION[1] + (FLIGHT_NO_TEXT_HEIGHT // 2) + BAR_VPADDING
-BOTTOM_OF_PROGRESS_SECTION = FLIGHT_DETAILS_BAR_STARTING_POSITION[1] + (FLIGHT_NO_TEXT_HEIGHT // 2) + BAR_VPADDING + FLIGHT_PROGRESS_BAR_HEIGHT
-DEPARTURE_TIME_INDEX = (1, BOTTOM_OF_PROGRESS_SECTION)
-ARRIVAL_TIME_INDEX = (screen.WIDTH - 18, BOTTOM_OF_PROGRESS_SECTION)
-PROGRESS_BAR_INDEX = (22,(TOP_OF_PROGRESS_SECTION + BOTTOM_OF_PROGRESS_SECTION) // 2)
+TOP_OF_PROGRESS_SECTION = 13
+BOTTOM_OF_PROGRESS_SECTION = 17
+DEPARTURE_TIME_INDEX = (2, BOTTOM_OF_PROGRESS_SECTION)
+ARRIVAL_TIME_INDEX = (screen.WIDTH - 19, BOTTOM_OF_PROGRESS_SECTION)
+PROGRESS_BAR_INDEX = (21,((TOP_OF_PROGRESS_SECTION + BOTTOM_OF_PROGRESS_SECTION) // 2) - 1)
 DEFAULT_BAR_PROGRESS = 0.5
 DELAYED_COLOUR = colours.RED_LIGHT
 DELAY_TIME_WINDOW_SECONDS = 1800
@@ -142,7 +142,7 @@ class FlightDetailsScene(object):
             arrival_time_colour = DELAYED_COLOUR
             progress_bar_colour = DELAYED_COLOUR
 
-        if isinstance(start_dt, datetime.datetime):      
+        if isinstance(start_dt, datetime.datetime):   
             graphics.DrawText(
                 self.canvas,
                 fonts.extrasmall,
@@ -182,7 +182,7 @@ class FlightDetailsScene(object):
 
         graphics.DrawLine(
             self.canvas,
-            PROGRESS_BAR_INDEX[0] - 2,
+            PROGRESS_BAR_INDEX[0],
             PROGRESS_BAR_INDEX[1],
             PROGRESS_BAR_INDEX[0] + 21,
             PROGRESS_BAR_INDEX[1],
@@ -191,7 +191,7 @@ class FlightDetailsScene(object):
 
         graphics.DrawLine(
             self.canvas,
-            PROGRESS_BAR_INDEX[0] - 2,
+            PROGRESS_BAR_INDEX[0],
             PROGRESS_BAR_INDEX[1],
             PROGRESS_BAR_INDEX[0] + min([20, int(21 * ratio_completed)]),
             PROGRESS_BAR_INDEX[1],

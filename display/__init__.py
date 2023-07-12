@@ -47,16 +47,16 @@ class Display(
         # Setup Display
         options = RGBMatrixOptions()
         options.hardware_mapping = "adafruit-hat-pwm" if HAT_PWM_ENABLED else "adafruit-hat"
-        options.rows = 32
+        options.rows = 64
         options.cols = 64
-        options.chain_length = 1
+        options.chain_length = 2
         options.parallel = 1
         options.row_address_type = 0
         options.multiplexing = 0
         options.pwm_bits = 11
         options.brightness = BRIGHTNESS
         options.pwm_lsb_nanoseconds = 130
-        options.led_rgb_sequence = "RBG"
+        options.led_rgb_sequence = "RGB"
         options.pixel_mapper_config = ""
         options.show_refresh_rate = 0
         options.gpio_slowdown = GPIO_SLOWDOWN
